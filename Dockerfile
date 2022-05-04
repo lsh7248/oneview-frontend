@@ -9,7 +9,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginx:1.19.0-alpine AS prod-stage
+FROM nginx:1.21.0-alpine AS prod-stage
 
 RUN mkdir /app
 COPY --from=build /app/dist /app
