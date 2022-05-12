@@ -1,5 +1,5 @@
 # 1. Base Node Image Pull
-FROM node:16.14-alpine AS build
+FROM node:16.15-alpine AS build
 # 2. Work Dir 이동
 WORKDIR /app
 # 3. npm install 목록 Copy
