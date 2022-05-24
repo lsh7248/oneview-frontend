@@ -3,7 +3,7 @@
     <v-row dense>
       <v-col cols="6">
         <v-card class="pa-3 ma-3">
-          <v-card-title> 무선 품질 VOC 발생건수 </v-card-title>
+          <v-card-title> 무선 - 품질 VOC 발생건수 </v-card-title>
           <v-card-actions>
             <v-btn>dd</v-btn>
             <v-combobox clearable hide-selected multiple></v-combobox>
