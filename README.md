@@ -1,6 +1,7 @@
 # oneview-frontend
 
 - DEVELOP BRANCH 사용확인
+- 허재 수정확인
 
 # develop env
 
