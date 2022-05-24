@@ -1,50 +1,77 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+    <app-bar v-if="!$route.path.includes('login')"></app-bar>
+    <side-bar v-if="!$route.path.includes('login')"></side-bar>
     <v-main>
       <router-view />
     </v-main>
+    <fooster-bar />
   </v-app>
 </template>
 
 <script>
+import AppBar from "@/components/main/AppBar.vue";
+import SideBar from "@/components/main/SideBar.vue";
+import FoosterBar from "@/components/main/FoosterBar.vue";
+
+import {mapState, mapMutations} from "vuex";
 export default {
   name: "App",
-
+  components: {
+    AppBar,
+    SideBar,
+    FoosterBar,
+  },
   data: () => ({
     //
   }),
+
+  beforeCreate() {
+    this.$store.commit("auth/initializeStore");
+    const access = this.$store.state.auth.access;
+
+    if (access) {
+      this.$axios.defaults.headers.common["Authorization"] = "JWT " + access;
+    } else {
+      this.$axios.defaults.headers.common["Authorization"] = "";
+    }
+  },
+
+  mounted() {
+    setInterval(() => {
+      this.getAccess();
+    }, 100000);
+  },
+  computed: {
+    ...mapState("auth", ["access", "refresh"]),
+  },
+
+  methods: {
+    ...mapMutations("auth", ["setAccess", "setRefresh", "initializeStore"]),
+    getAccess() {
+      const accessData = {
+        refresh: this.refresh,
+      };
+
+      this.$axios
+        .post("/api/jwt/refresh/", accessData)
+        .then((res) => {
+          const access = res.data.access;
+          const refresh = res.data.refresh;
+
+          console.log("New access Token: ", access);
+          console.log("New refresh Token: ", refresh);
+
+          localStorage.setItem("access", access);
+          this.setAccess(access);
+
+          localStorage.setItem("refresh", refresh);
+          this.setRefresh(refresh);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>

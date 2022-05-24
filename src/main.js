@@ -4,6 +4,11 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
+import axios from "axios";
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+Vue.prototype.$axios = axios;
+
 Vue.config.productionTip = false;
 
 new Vue({
