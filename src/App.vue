@@ -31,7 +31,7 @@ export default {
     const access = this.$store.state.auth.access;
 
     if (access) {
-      this.$axios.defaults.headers.common["Authorization"] = "JWT " + access;
+      this.$axios.defaults.headers.common["Authorization"] = "Bearer " + access;
     } else {
       this.$axios.defaults.headers.common["Authorization"] = "";
     }
@@ -49,12 +49,11 @@ export default {
   methods: {
     ...mapMutations("auth", ["setAccess", "setRefresh", "initializeStore"]),
     getAccess() {
-      const accessData = {
-        refresh: this.refresh,
-      };
+      this.$axios.defaults.headers.common["Authorization"] =
+        "Bearer " + this.$store.state.auth.refresh;
 
       this.$axios
-        .post("/api/jwt/refresh/", accessData)
+        .post("/api/v1/jwt/refresh")
         .then((res) => {
           const access = res.data.access;
           const refresh = res.data.refresh;
@@ -67,6 +66,10 @@ export default {
 
           localStorage.setItem("refresh", refresh);
           this.setRefresh(refresh);
+
+          this.$axios.defaults.headers.common["Authorization"] =
+            "Bearer " + access;
+          console.log("SET HEADER TO NEW ACCESS TOKEN SUCCESS...");
         })
         .catch((err) => {
           console.log(err);

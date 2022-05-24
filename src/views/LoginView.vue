@@ -95,7 +95,7 @@
                         type="text"
                         color="primary accent-3"
                       />
-                      <v-text-field
+                      <!-- <v-text-field
                         label="이름"
                         v-model="registerForm.userName"
                         name="first_name"
@@ -103,17 +103,17 @@
                         prepend-icon="mdi-account"
                         type="text"
                         color="primary accent-3"
-                      />
+                      /> -->
 
-                      <v-text-field
+                      <!-- <v-text-field
                         v-model="registerForm.userEmail"
                         label="이메일"
                         name="email"
                         :rules="[(v) => !!v || 'Email is required']"
                         prepend-icon="mdi-email"
                         color="primary accent-3"
-                      />
-                      <v-select
+                      /> -->
+                      <!-- <v-select
                         v-model="registerForm.userAuth"
                         :items="authList"
                         item-text="name"
@@ -123,7 +123,7 @@
                         prepend-icon="mdi-account-lock"
                         return-object
                       >
-                      </v-select>
+                      </v-select> -->
                       <v-text-field
                         v-model="registerForm.userPassword"
                         label="비밀번호"
@@ -133,7 +133,7 @@
                         type="password"
                         color="primary accent-3"
                       />
-                      <v-text-field
+                      <!-- <v-text-field
                         v-model="registerForm.userPassword2"
                         label="비밀번호 확인"
                         name="password2"
@@ -141,7 +141,7 @@
                         prepend-icon="mdi-lock-plus"
                         type="password"
                         color="primary accent-3"
-                      />
+                      /> -->
                     </v-form>
                   </v-card-text>
                   <div class="text-center mt-n5">
@@ -205,12 +205,12 @@ export default {
       localStorage.removeItem("access");
 
       const formData = {
-        user_id: this.loginForm.userID,
+        employee_id: this.loginForm.userID,
         password: this.loginForm.userPassword,
       };
       console.log(formData);
       this.$axios
-        .post("/api/jwt/create/", formData)
+        .post("/api/v1/jwt/login", formData)
         .then((res) => {
           console.log(res);
 
@@ -219,7 +219,7 @@ export default {
           this.setAccess(access);
           this.setRefresh(refresh);
           this.$axios.defaults.headers.common["Authorization"] =
-            "JWT " + access;
+            "Bearer " + access;
           localStorage.setItem("access", access);
           localStorage.setItem("refresh", refresh);
           this.$router.push("/");
@@ -231,16 +231,16 @@ export default {
     registerSubmit() {
       console.log("register init...");
       const formData = {
-        name: this.registerForm.userName,
-        email: this.registerForm.userEmail,
-        organization: this.registerForm.userAuth.value,
-        user_id: this.registerForm.userID,
+        // name: this.registerForm.userName,
+        // email: this.registerForm.userEmail,
+        // organization: this.registerForm.userAuth.value,
+        employee_id: this.registerForm.userID,
         password: this.registerForm.userPassword,
-        re_password: this.registerForm.userPassword2,
+        // re_password: this.registerForm.userPassword2,
       };
       console.log(formData);
       this.$axios
-        .post("/api/users/", formData)
+        .post("/api/v1/users", formData)
         .then((res) => {
           console.log("REGISTER POST RES", res);
           alert(`user ${res.data.name} register OK`);

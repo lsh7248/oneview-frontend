@@ -23,8 +23,10 @@ export default {
 
   methods: {
     getUserInfo() {
+      console.log("me GET Start...");
+      console.log(this.$axios.defaults.headers.common["Authorization"]);
       this.$axios
-        .get("/api/users/me")
+        .get("/api/v1/users/me")
         .then((res) => {
           console.log(res);
           this.userInfo = res.data;

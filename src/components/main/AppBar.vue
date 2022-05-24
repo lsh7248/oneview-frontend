@@ -60,7 +60,7 @@ export default {
       },
       {
         name: "VOC 상세분석",
-        to: "/notice",
+        to: "/map",
       },
       {
         name: "게시판",
@@ -68,7 +68,7 @@ export default {
       },
       {
         name: "관리자",
-        to: "/login",
+        to: "/",
       },
     ],
   }),
