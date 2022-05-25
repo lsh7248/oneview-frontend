@@ -78,23 +78,27 @@ export default {
     },
     logout() {
       console.log("logout init...");
-      const formData = {
-        refresh_token: localStorage.getItem("refresh"),
-      };
-      console.log("Expire refresh token: ", formData.refresh_token);
+      this.$axios.defaults.headers.common["Authorization"] =
+        "Bearer " + this.$store.state.auth.access;
+
       localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
 
-      console.log(formData);
       this.$axios
-        .post("/api/logout/", formData)
+        .post("/api/v1/jwt/logout/access")
         .then((res) => {
-          console.log("logout completed...", res);
-
-          localStorage.removeItem("access");
-          localStorage.removeItem("refresh");
-          this.$axios.defaults.headers.common["Authorization"] = "";
-          this.$router.push("/login");
+          console.log("access token revoke completed...", res);
+          this.$axios.defaults.headers.common["Authorization"] =
+            "Bearer " + this.$store.state.auth.refresh;
+          this.$axios
+            .post("/api/v1/jwt/logout/refresh")
+            .then((res) => {
+              console.log("refresh token revoke completed...", res);
+              this.$axios.defaults.headers.common["Authorization"] = "";
+              this.$router.push("/login");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);

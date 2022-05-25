@@ -56,16 +56,11 @@ export default {
         .post("/api/v1/jwt/refresh")
         .then((res) => {
           const access = res.data.access;
-          const refresh = res.data.refresh;
 
           console.log("New access Token: ", access);
-          console.log("New refresh Token: ", refresh);
 
           localStorage.setItem("access", access);
           this.setAccess(access);
-
-          localStorage.setItem("refresh", refresh);
-          this.setRefresh(refresh);
 
           this.$axios.defaults.headers.common["Authorization"] =
             "Bearer " + access;
