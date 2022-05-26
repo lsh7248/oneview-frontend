@@ -81,18 +81,18 @@ export default {
       this.$axios.defaults.headers.common["Authorization"] =
         "Bearer " + this.$store.state.auth.access;
 
-      localStorage.removeItem("access");
-
       this.$axios
         .post("/api/v1/jwt/logout/access")
         .then((res) => {
           console.log("access token revoke completed...", res);
+          localStorage.removeItem("access");
           this.$axios.defaults.headers.common["Authorization"] =
             "Bearer " + this.$store.state.auth.refresh;
           this.$axios
             .post("/api/v1/jwt/logout/refresh")
             .then((res) => {
               console.log("refresh token revoke completed...", res);
+              localStorage.removeItem("refresh");
               this.$axios.defaults.headers.common["Authorization"] = "";
               this.$router.push("/login");
             })
