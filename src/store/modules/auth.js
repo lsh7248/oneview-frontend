@@ -8,6 +8,7 @@ const auth = {
     // },
     access: "",
     refresh: "",
+    isLogin: false,
   },
   getters: {
     getAccess(state) {
@@ -15,6 +16,9 @@ const auth = {
     },
     getRefresh(state) {
       return state.refresh;
+    },
+    getIsLogin(state) {
+      return state.isLogin;
     },
     // getUserContainer(state) {
     //   return state.userContainer;
@@ -28,9 +32,11 @@ const auth = {
     //   state.isLogin = true;
     // },
     initializeStore(state) {
-      if (localStorage.getItem("access")) {
-        state.access = localStorage.getItem("access");
-        state.refresh = localStorage.getItem("refresh");
+      if (sessionStorage.getItem("userInfo")) {
+        const sessionObj = sessionStorage.getItem("userInfo");
+        let userInfo = sessionObj ? JSON.parse(sessionObj) : null;
+        state.access = userInfo ? JSON.parse(userInfo).access : null;
+        state.refresh = userInfo ? JSON.parse(userInfo).refresh : null;
       } else {
         state.access = "";
         state.refresh = "";

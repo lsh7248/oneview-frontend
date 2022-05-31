@@ -40,7 +40,7 @@ export default {
   mounted() {
     setInterval(() => {
       this.getAccess();
-    }, 100000);
+    }, 1000);
   },
   computed: {
     ...mapState("auth", ["access", "refresh"]),
@@ -51,15 +51,18 @@ export default {
     getAccess() {
       this.$axios.defaults.headers.common["Authorization"] =
         "Bearer " + this.$store.state.auth.refresh;
-
       this.$axios
         .post("/api/v1/jwt/refresh")
         .then((res) => {
           const access = res.data.access;
 
           console.log("New access Token: ", access);
+          const userInfo = {
+            access: access,
+            refresh: sessionStorage.getItem("userInfo").refresh,
+          };
 
-          localStorage.setItem("access", access);
+          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           this.setAccess(access);
 
           this.$axios.defaults.headers.common["Authorization"] =

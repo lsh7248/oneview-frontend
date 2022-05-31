@@ -24,7 +24,11 @@ export default {
   methods: {
     getUserInfo() {
       console.log("me GET Start...");
-      console.log(this.$axios.defaults.headers.common["Authorization"]);
+      const sessionObj = sessionStorage.getItem("userInfo");
+      let userInfo = sessionObj ? JSON.parse(sessionObj) : null;
+      const access = userInfo ? userInfo.access : null;
+      console.log("access Token: ", access);
+      this.$axios.defaults.headers.common["Authorization"] = "Bearer " + access;
       this.$axios
         .get("/api/v1/users/me")
         .then((res) => {

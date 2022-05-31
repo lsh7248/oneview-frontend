@@ -202,7 +202,7 @@ export default {
     login() {
       console.log("login() ...");
       this.$axios.defaults.headers.common["Authorization"] = "";
-      localStorage.removeItem("access");
+      sessionStorage.removeItem("userInfo");
 
       const formData = {
         employee_id: this.loginForm.userID,
@@ -220,8 +220,12 @@ export default {
           this.setRefresh(refresh);
           this.$axios.defaults.headers.common["Authorization"] =
             "Bearer " + access;
-          localStorage.setItem("access", access);
-          localStorage.setItem("refresh", refresh);
+          const userInfo = {
+            access: access,
+            refresh: refresh,
+          };
+          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+          console.log("session Storage: ", sessionStorage.getItem("userInfo"));
           this.$router.push("/");
         })
         .catch((err) => {
