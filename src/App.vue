@@ -40,7 +40,7 @@ export default {
   mounted() {
     setInterval(() => {
       this.getAccess();
-    }, 1000);
+    }, 10000);
   },
   computed: {
     ...mapState("auth", ["access", "refresh"]),

@@ -4,6 +4,7 @@ export const API = {
   users: "users", // API list의 구조를 나열해주세요.
   user: (args) => `users/${args.userId}`,
   blacklists: "blacklists",
+  me: "users/me",
 };
 
 export const ETC_API = {

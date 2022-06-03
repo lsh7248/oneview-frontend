@@ -68,7 +68,7 @@ export default {
       },
       {
         name: "관리자",
-        to: "/",
+        to: "/admin",
       },
     ],
   }),

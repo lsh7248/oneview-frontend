@@ -224,6 +224,7 @@ export default {
             access: access,
             refresh: refresh,
           };
+          console.log("login Suc! ", userInfo);
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           console.log("session Storage: ", sessionStorage.getItem("userInfo"));
           this.$router.push("/");

@@ -37,9 +37,11 @@ const auth = {
         let userInfo = sessionObj ? JSON.parse(sessionObj) : null;
         state.access = userInfo ? JSON.parse(userInfo).access : null;
         state.refresh = userInfo ? JSON.parse(userInfo).refresh : null;
+        state.isLogin = true;
       } else {
         state.access = "";
         state.refresh = "";
+        state.isLogin = false;
       }
     },
     setAccess(state, access) {
@@ -47,6 +49,9 @@ const auth = {
     },
     setRefresh(state, refresh) {
       state.refresh = refresh;
+    },
+    setIsLogin(state, bool) {
+      state.isLogin = bool;
     },
   },
   actions: {},
