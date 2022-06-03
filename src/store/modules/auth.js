@@ -20,17 +20,8 @@ const auth = {
     getIsLogin(state) {
       return state.isLogin;
     },
-    // getUserContainer(state) {
-    //   return state.userContainer;
-    // },
   },
   mutations: {
-    // saveUserContainer(state, payload) {
-    //   console.log(payload);
-    //   state.userContainer.userId = payload.userId;
-    //   state.userContainer.userPassword = payload.userPassword;
-    //   state.isLogin = true;
-    // },
     initializeStore(state) {
       if (sessionStorage.getItem("userInfo")) {
         const sessionObj = sessionStorage.getItem("userInfo");

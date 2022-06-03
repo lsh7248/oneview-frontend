@@ -42,6 +42,7 @@
 
 <script>
 import {bus} from "@/event-bus";
+import {mapMutations} from "vuex";
 export default {
   name: "AppBar",
 
@@ -64,7 +65,7 @@ export default {
       },
       {
         name: "게시판",
-        to: "/",
+        to: "/home",
       },
       {
         name: "관리자",
@@ -73,6 +74,7 @@ export default {
     ],
   }),
   methods: {
+    ...mapMutations("auth", ["setIsLogin"]),
     drawerClick() {
       bus.$emit("DRAWER_CLICK", this.drawer);
     },
@@ -85,15 +87,15 @@ export default {
         .post("/api/v1/jwt/logout/access")
         .then((res) => {
           console.log("access token revoke completed...", res);
-          localStorage.removeItem("access");
           this.$axios.defaults.headers.common["Authorization"] =
             "Bearer " + this.$store.state.auth.refresh;
           this.$axios
             .post("/api/v1/jwt/logout/refresh")
             .then((res) => {
               console.log("refresh token revoke completed...", res);
-              localStorage.removeItem("refresh");
+              sessionStorage.removeItem("userInfo");
               this.$axios.defaults.headers.common["Authorization"] = "";
+              this.setIsLogin(false);
               this.$router.push("/login");
             })
             .catch((err) => {

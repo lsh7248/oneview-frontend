@@ -194,6 +194,14 @@ export default {
     },
 
     deleteItem(item) {
+      api
+        .deleteUser(item.id)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.editedIndex = this.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
@@ -229,8 +237,8 @@ export default {
           username: this.editedItem.username,
           email: this.editedItem.email,
           phone: this.editedItem.phone,
-          is_active: true,
-          is_superuser: true,
+          is_active: this.editedItem.is_active,
+          is_superuser: this.editedItem.is_superuser,
         };
 
         api
@@ -242,13 +250,12 @@ export default {
             console.log(err);
           });
       } else {
-        this.users.push(this.editedItem);
         const fromData = {
           employee_id: this.editedItem.employee_id,
           password: this.editedItem.password,
-          username: this.editedItem.username,
-          email: this.editedItem.email,
-          phone: this.editedItem.phone,
+          // username: this.editedItem.username,
+          // email: this.editedItem.email,
+          // phone: this.editedItem.phone,
           //   is_active: true,
           //   is_superuser: true,
         };
@@ -261,6 +268,8 @@ export default {
             console.log(err);
           });
       }
+      this.users.push(this.editedItem);
+      this.initialize();
       this.close();
     },
   },

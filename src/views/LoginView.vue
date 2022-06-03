@@ -198,7 +198,7 @@ export default {
   unmounted() {},
 
   methods: {
-    ...mapMutations("auth", ["setAccess", "setRefresh"]),
+    ...mapMutations("auth", ["setAccess", "setRefresh", "setIsLogin"]),
     login() {
       console.log("login() ...");
       this.$axios.defaults.headers.common["Authorization"] = "";
@@ -210,7 +210,7 @@ export default {
       };
       console.log(formData);
       this.$axios
-        .post("/api/v1/jwt/login", formData)
+        .post("http://localhost:8000/api/v1/jwt/login", formData)
         .then((res) => {
           console.log(res);
 
@@ -227,6 +227,7 @@ export default {
           console.log("login Suc! ", userInfo);
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           console.log("session Storage: ", sessionStorage.getItem("userInfo"));
+          this.setIsLogin(true);
           this.$router.push("/");
         })
         .catch((err) => {
@@ -245,7 +246,7 @@ export default {
       };
       console.log(formData);
       this.$axios
-        .post("/api/v1/users", formData)
+        .post("http://localhost:8000/api/v1/users", formData)
         .then((res) => {
           console.log("REGISTER POST RES", res);
           alert(`user ${res.data.employee_id} register OK`);

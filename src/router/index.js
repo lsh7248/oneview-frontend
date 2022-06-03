@@ -8,9 +8,16 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginView,
+    beforeEnter(to, from, next) {
+      if (sessionStorage.getItem("userInfo")) {
+        next({name: "home"});
+      } else {
+        next();
+      }
+    },
   },
   {
-    path: "/",
+    path: "/home",
     name: "home",
     component: HomeView,
   },
@@ -53,24 +60,11 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach(function (to, from, next) {
-//   console.log("라우딩 대기");
-
-//   if (
-//     to.matched.some(function (routeInfo) {
-//       return routeInfo.meta.authRequired;
-//     })
-//   ) {
-//     // 인증이 필요한 페이지일 경우 인증 체크
-//     if (isAuth) {
-//       next(); // 페이지 전환
-//     } else {
-//       alert("로그인 필요");
-//     }
-//   } else {
-//     next(); // 페이지 전환
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.name !== "login" && !sessionStorage.getItem("userInfo"))
+    next({name: "login"});
+  else next();
+});
 
 Vue.use(VueRouter);
 

@@ -15,16 +15,20 @@ export const api = {
     return service.get(`${API_URL}${API.me}`);
   },
   //  Register User
-  setUser(formData) {
-    return service.post(`${API_URL}${API.users}`, formData);
+  setUser(params) {
+    return service.post(`${API_URL}${API.users}`, params);
   },
   // Update User
-  updateUser(userId, fromData) {
-    return service.patch(`${API_URL}${API.user(userId)}`, fromData);
+  updateUser(userId, params) {
+    return service.patch(`${API_URL}${API.user(userId)}`, params);
   },
   //  Delete User
   deleteUser(userId) {
     return service.delete(`${API_URL}${API.user(userId)}`);
+  },
+  // Get Vocs
+  getVocs(params) {
+    return service.get(`${API_URL}${API.vocs}`, params);
   },
 };
 

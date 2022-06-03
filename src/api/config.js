@@ -5,6 +5,7 @@ export const API = {
   user: (userId) => `users/${userId}`,
   blacklists: "blacklists",
   me: "users/me",
+  vocs: "vocs",
 };
 
 export const ETC_API = {
