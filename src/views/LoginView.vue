@@ -248,7 +248,7 @@ export default {
         .post("/api/v1/users", formData)
         .then((res) => {
           console.log("REGISTER POST RES", res);
-          alert(`user ${res.data.name} register OK`);
+          alert(`user ${res.data.employee_id} register OK`);
           this.me = res.data;
         })
         .catch((err) => {

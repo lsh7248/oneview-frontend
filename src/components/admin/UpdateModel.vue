@@ -1,19 +1,19 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="users"
     sort-by="calories"
     class="elevation-1"
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>My USERS</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{on, attrs}">
             <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-              New Item
+              New User
             </v-btn>
           </template>
           <v-card>
@@ -26,32 +26,32 @@
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.name"
-                      label="Dessert name"
+                      v-model="editedItem.employee_id"
+                      label="사번"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
+                      v-model="editedItem.password"
+                      label="비밀번호"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
+                      v-model="editedItem.username"
+                      label="이름"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
+                      v-model="editedItem.email"
+                      label="이메일"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
+                      v-model="editedItem.phone"
+                      label="핸드폰"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -84,48 +84,53 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <!-- <template v-slot:item.actions="{item}">
+    <template v-slot:[`item.actions`]="{item}">
       <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-    </template> -->
+    </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize"> Reset </v-btn>
     </template>
   </v-data-table>
 </template>
 <script>
+import {api} from "@/api/api";
 export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "ID",
         align: "start",
         sortable: false,
-        value: "name",
+        value: "id",
       },
-      {text: "Calories", value: "calories"},
-      {text: "Fat (g)", value: "fat"},
-      {text: "Carbs (g)", value: "carbs"},
-      {text: "Protein (g)", value: "protein"},
+      {text: "Employee ID", value: "employee_id"},
+      {text: "User active", value: "is_active"},
+      {text: "User admin", value: "is_superuser"},
+      {text: "User Name", value: "username"},
+      {text: "Email", value: "email"},
+      {text: "Phone", value: "phone"},
       {text: "Actions", value: "actions", sortable: false},
     ],
-    desserts: [],
+    users: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      id: "",
+      employee_id: 0,
+      password: "",
+      username: "",
+      email: "",
+      phone: "",
     },
     defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      id: "",
+      employee_id: "",
+      password: "",
+      username: "",
+      email: "",
+      phone: "",
     },
   }),
 
@@ -150,94 +155,31 @@ export default {
 
   methods: {
     initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ];
+      api
+        .getUsers()
+        .then((res) => {
+          console.log(res);
+          this.users = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
+      this.users.splice(this.editedIndex, 1);
       this.closeDelete();
     },
 
@@ -259,9 +201,44 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.users[this.editedIndex], this.editedItem);
+        const fromData = {
+          employee_id: this.editedItem.employee_id,
+          password: this.editedItem.password,
+          username: this.editedItem.username,
+          email: this.editedItem.email,
+          phone: this.editedItem.phone,
+          is_active: true,
+          is_superuser: true,
+        };
+
+        api
+          .updateUser(parseInt(this.users[this.editedIndex].id), fromData)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } else {
-        this.desserts.push(this.editedItem);
+        this.users.push(this.editedItem);
+        const fromData = {
+          employee_id: this.editedItem.employee_id,
+          password: this.editedItem.password,
+          username: this.editedItem.username,
+          email: this.editedItem.email,
+          phone: this.editedItem.phone,
+          //   is_active: true,
+          //   is_superuser: true,
+        };
+        api
+          .setUser(fromData)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
       this.close();
     },

@@ -49,17 +49,21 @@ export default {
   methods: {
     ...mapMutations("auth", ["setAccess", "setRefresh", "initializeStore"]),
     getAccess() {
+      const refresh_token = JSON.parse(
+        sessionStorage.getItem("userInfo")
+      ).refresh;
       this.$axios.defaults.headers.common["Authorization"] =
-        "Bearer " + this.$store.state.auth.refresh;
+        "Bearer " + refresh_token;
       this.$axios
         .post("/api/v1/jwt/refresh")
         .then((res) => {
           const access = res.data.access;
+          const refresh = refresh_token;
 
           console.log("New access Token: ", access);
           const userInfo = {
             access: access,
-            refresh: sessionStorage.getItem("userInfo").refresh,
+            refresh: refresh,
           };
 
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));

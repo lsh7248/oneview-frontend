@@ -9,7 +9,7 @@ import {refreshAccessToken} from "@/utils/authUtils";
 // axios.defaults.baseURL = "http://localhost:8000/"; // the FastAPI backend
 
 const service = axios.create({
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: "http://127.0.0.1:8000/api/v1",
   timeout: 3000,
   withCredentials: true,
   xsrfCookieName: "csrftoken",

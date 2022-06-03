@@ -16,7 +16,7 @@ export const api = {
   },
   //  Register User
   setUser(formData) {
-    return service.post(`${API_URL}`, formData);
+    return service.post(`${API_URL}${API.users}`, formData);
   },
   // Update User
   updateUser(userId, fromData) {

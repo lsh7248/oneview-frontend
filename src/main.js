@@ -3,6 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import VuetifyDialog from "vuetify-dialog";
+import "vuetify-dialog/dist/vuetify-dialog.css";
 
 import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -12,6 +14,12 @@ axios.defaults.baseURL = "http://localhost:8000/"; // the FastAPI backend
 Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false;
+
+Vue.use(VuetifyDialog, {
+  context: {
+    vuetify,
+  },
+});
 
 new Vue({
   router,
