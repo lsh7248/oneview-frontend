@@ -2,8 +2,6 @@
 
 - DEVELOP BRANCH 사용확인
 - 허재 수정확인
-- test#1
-- test#2
 
 # develop env
 
