@@ -1,5 +1,13 @@
 <template>
-  <div class="about">
-    <h1>This is an admin page</h1>
-  </div>
+  <UpdateModel />
 </template>
+<script>
+import UpdateModel from "@/components/admin/UpdateModel.vue";
+export default {
+  name: "AdminView",
+
+  components: {
+    UpdateModel,
+  },
+};
+</script>
