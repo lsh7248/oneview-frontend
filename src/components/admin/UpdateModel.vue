@@ -2,12 +2,21 @@
   <v-data-table
     :headers="headers"
     :items="users"
-    sort-by="calories"
+    sort-by="id"
     class="elevation-1"
   >
+    <template v-slot:[`item.is_active`]="{item}">
+      <v-simple-checkbox v-model="item.is_active" disabled></v-simple-checkbox>
+    </template>
+    <template v-slot:[`item.is_superuser`]="{item}">
+      <v-simple-checkbox
+        v-model="item.is_superuser"
+        disabled
+      ></v-simple-checkbox>
+    </template>
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>My USERS</v-toolbar-title>
+        <v-toolbar-title>USERS</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
@@ -54,6 +63,18 @@
                       label="핸드폰"
                     ></v-text-field>
                   </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-checkbox
+                      v-model="editedItem.is_active"
+                      label="활성화"
+                    ></v-checkbox>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-checkbox
+                      v-model="editedItem.is_superuser"
+                      label="관리자"
+                    ></v-checkbox>
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -68,7 +89,7 @@
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5"
-              >Are you sure you want to delete this item?</v-card-title
+              >Are you sure you want to delete this user?</v-card-title
             >
             <v-card-actions>
               <v-spacer></v-spacer>
