@@ -18,4 +18,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # RUN service nginx restart
 
 # EXPOSE 80
+
 # CMD ["nginx", "-g", "daemon off;"]
