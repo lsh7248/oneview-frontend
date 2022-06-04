@@ -80,15 +80,16 @@ export default {
     },
     logout() {
       console.log("logout init...");
+      const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
       this.$axios.defaults.headers.common["Authorization"] =
-        "Bearer " + this.$store.state.auth.access;
+        "Bearer " + userInfo.access;
 
       this.$axios
         .post("/api/v1/jwt/logout/access")
         .then((res) => {
           console.log("access token revoke completed...", res);
           this.$axios.defaults.headers.common["Authorization"] =
-            "Bearer " + this.$store.state.auth.refresh;
+            "Bearer " + userInfo.refresh;
           this.$axios
             .post("/api/v1/jwt/logout/refresh")
             .then((res) => {

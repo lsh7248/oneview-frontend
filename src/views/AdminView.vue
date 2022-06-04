@@ -1,13 +1,22 @@
 <template>
-  <UpdateModel />
+  <v-container fluid>
+    <v-card>
+      <user-card />
+    </v-card>
+    <v-card>
+      <TokenCard />
+    </v-card>
+  </v-container>
 </template>
 <script>
-import UpdateModel from "@/components/admin/UpdateModel.vue";
+import UserCard from "@/components/admin/UserCard.vue";
+import TokenCard from "@/components/admin/TokenCard.vue";
 export default {
   name: "AdminView",
 
   components: {
-    UpdateModel,
+    UserCard,
+    TokenCard,
   },
 };
 </script>

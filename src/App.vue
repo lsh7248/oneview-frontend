@@ -38,9 +38,9 @@ export default {
   },
 
   mounted() {
-    setInterval(() => {
-      this.getAccess();
-    }, 10000);
+    // setInterval(() => {
+    //   this.getAccess();
+    // }, 10000);
   },
   computed: {
     ...mapState("auth", ["access", "refresh"]),
