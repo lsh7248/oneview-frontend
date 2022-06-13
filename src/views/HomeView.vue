@@ -4,7 +4,7 @@
 </template>
 
 <script>
-// import {api} from "@/api/api";
+import {api} from "@/api/api";
 import DataTable from "@/components/datas/DataTable.vue";
 export default {
   name: "HomeView",
@@ -13,10 +13,25 @@ export default {
     DataTable,
   },
 
-  data: () => ({}),
+  data: () => ({
+    vocs: [],
+  }),
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    initialize() {
+      api
+        .getVocs()
+        .then((res) => {
+          console.log(res);
+          this.vocs = res.data;
+          console.log("vocs: ", this.vocs);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
