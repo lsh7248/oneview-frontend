@@ -998,7 +998,7 @@ olleh.maps.namespace('olleh.maps', {
 (function (GLOBAL) {
 
   var PROTOCOL = location.protocol == 'https:' ? 'https:' : 'http:';
-  var PORT = PROTOCOL == 'https:' ? '10083' : '10080';
+  var PORT = PROTOCOL == 'https:' ? '10083' : '80';
   var VERSION = "v=yyyymmdd";
   olleh.maps.namespace('olleh.maps.env', {
     PROTOCOL: PROTOCOL,

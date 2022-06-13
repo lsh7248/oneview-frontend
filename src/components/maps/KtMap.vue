@@ -63,6 +63,17 @@ export default {
           areaStyle: true,
         },
       });
+
+      // let paths = new olleh.maps.Path(this.position);
+      // let polygon = new olleh.maps.vector.Polygon({
+      //   map: this.map,
+      //   paths: paths,
+      //   strokeColor: "blue",
+      //   strokrOpacity: 1,
+      //   strokeWeight: 3,
+      //   fillColor: "blue",
+      //   fillOpacity: 5,
+      // });
       for (var i = 0; i < this.position.length; i++) {
         let marker = new olleh.maps.overlay.Marker({
           position: this.position[i].UTMK,
@@ -97,6 +108,7 @@ export default {
         clusterer.add(marker);
       }
       clusterer.setMap(this.map);
+      // polygon.setMap(this.map);
     },
   },
   mounted() {
