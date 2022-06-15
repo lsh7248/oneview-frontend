@@ -4,7 +4,7 @@
 
 <script>
 import test from "@/map/ktmap-all-desktop";
-
+import rulist from "@/views/MapAnalysisView.vue";
 /* global olleh */
 
 export default {
@@ -13,8 +13,8 @@ export default {
     markers: [],
     position: [
       {
-        title: "title기지국1",
-        caption: "caption기지국1",
+        title: "우면_양재천공원",
+        caption: "우면_양재천공원",
         UTMK: new olleh.maps.UTMK(958386.063532902, 1941111.5761742294),
         RUID: "RRSL11111S",
         volte: "11",
@@ -22,8 +22,8 @@ export default {
         mdt: "11",
       },
       {
-        title: "title기지국2",
-        caption: "caption기지국2",
+        title: "우면_KT연구개발센터",
+        caption: "우면_KT연구개발센터",
         UTMK: new olleh.maps.UTMK(958386.0635321, 1941447.5761742452),
         RUID: "RRSL22222S",
         volte: "11",
@@ -31,8 +31,8 @@ export default {
         mdt: "11",
       },
       {
-        title: "title기지국3",
-        caption: "caption기지국3",
+        title: "우면_한라아파트",
+        caption: "우면_한라아파트",
         UTMK: new olleh.maps.UTMK(957999.0, 1941447.5761742011),
         RUID: "RRSL33333S",
         volte: "11",
@@ -64,7 +64,7 @@ export default {
         },
       });
 
-      // let paths = new olleh.maps.Path(this.position);
+      // let paths = new olleh.maps.Path(this.position["UTMK"]);
       // let polygon = new olleh.maps.vector.Polygon({
       //   map: this.map,
       //   paths: paths,
@@ -112,6 +112,7 @@ export default {
     },
   },
   mounted() {
+    console.log(rulist[0]);
     console.log("test: ", test);
     console.log(olleh);
     console.log(this.$refs.kmap);
