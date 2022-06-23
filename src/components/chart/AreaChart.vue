@@ -1,5 +1,5 @@
 <script>
-import {Line} from "vue-chartjs";
+import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
@@ -57,7 +57,7 @@ export default {
           },
         ],
       },
-      {responsive: true, maintainAspectRatio: false}
+      { responsive: true, maintainAspectRatio: false },
     );
   },
 };

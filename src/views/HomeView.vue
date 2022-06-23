@@ -27,11 +27,11 @@ export default {
       console.log(this.$axios.defaults.headers.common["Authorization"]);
       this.$axios
         .get("/api/v1/users/me")
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.userInfo = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },

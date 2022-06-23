@@ -14,7 +14,7 @@ import AppBar from "@/components/main/AppBar.vue";
 import SideBar from "@/components/main/SideBar.vue";
 import FoosterBar from "@/components/main/FoosterBar.vue";
 
-import {mapState, mapMutations} from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "App",
   components: {
@@ -54,7 +54,7 @@ export default {
 
       this.$axios
         .post("/api/v1/jwt/refresh")
-        .then((res) => {
+        .then(res => {
           const access = res.data.access;
           const refresh = res.data.refresh;
 
@@ -71,7 +71,7 @@ export default {
             "Bearer " + access;
           console.log("SET HEADER TO NEW ACCESS TOKEN SUCCESS...");
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },

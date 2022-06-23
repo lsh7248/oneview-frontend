@@ -12,7 +12,7 @@
     <v-spacer></v-spacer>
 
     <v-menu bottom left>
-      <template v-slot:activator="{on, attrs}">
+      <template v-slot:activator="{ on, attrs }">
         <v-btn icon color="yellow" v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
@@ -41,13 +41,13 @@
 </template>
 
 <script>
-import {bus} from "@/event-bus";
+import { bus } from "@/event-bus";
 export default {
   name: "AppBar",
 
   data: () => ({
     drawer: false,
-    appItems: [{title: "로그아웃"}],
+    appItems: [{ title: "로그아웃" }],
 
     tabItems: [
       {
@@ -88,7 +88,7 @@ export default {
       console.log(formData);
       this.$axios
         .post("/api/logout/", formData)
-        .then((res) => {
+        .then(res => {
           console.log("logout completed...", res);
 
           localStorage.removeItem("access");
@@ -96,7 +96,7 @@ export default {
           this.$axios.defaults.headers.common["Authorization"] = "";
           this.$router.push("/login");
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
