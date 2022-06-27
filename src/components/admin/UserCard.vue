@@ -64,6 +64,36 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="editedItem.auth"
+                      label="권한"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="editedItem.belong_1"
+                      label="소속1"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="editedItem.belong_2"
+                      label="소속2"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="editedItem.belong_3"
+                      label="소속3"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field
+                      v-model="editedItem.belong_4"
+                      label="소속4"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
                     <v-checkbox
                       v-model="editedItem.is_active"
                       label="활성화"
@@ -132,7 +162,11 @@ export default {
       { text: "User admin", value: "is_superuser" },
       { text: "User Name", value: "username" },
       { text: "Email", value: "email" },
-      { text: "Phone", value: "phone" },
+      { text: "auth", value: "auth" },
+      { text: "belong_1", value: "belong_1" },
+      { text: "belong_2", value: "belong_2" },
+      { text: "belong_3", value: "belong_3" },
+      { text: "belong_4", value: "belong_4" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     users: [],
@@ -144,6 +178,11 @@ export default {
       username: "",
       email: "",
       phone: "",
+      auth: "",
+      belong_1: "",
+      belong_2: "",
+      belong_3: "",
+      belong_4: "",
     },
     defaultItem: {
       id: "",
@@ -152,6 +191,11 @@ export default {
       username: "",
       email: "",
       phone: "",
+      auth: "",
+      belong_1: "",
+      belong_2: "",
+      belong_3: "",
+      belong_4: "",
     },
   }),
 
@@ -237,6 +281,11 @@ export default {
           username: this.editedItem.username,
           email: this.editedItem.email,
           phone: this.editedItem.phone,
+          auth: this.editedItem.auth,
+          belong_1: this.editedItem.belong_1,
+          belong_2: this.editedItem.belong_2,
+          belong_3: this.editedItem.belong_3,
+          belong_4: this.editedItem.belong_4,
           is_active: this.editedItem.is_active,
           is_superuser: this.editedItem.is_superuser,
         };
