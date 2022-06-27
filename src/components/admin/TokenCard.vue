@@ -8,10 +8,10 @@
     :single-select="singleSelect"
     show-select
   >
-    <template v-slot:[`item.is_active`]="{item}">
+    <template v-slot:[`item.is_active`]="{ item }">
       <v-simple-checkbox v-model="item.is_active" disabled></v-simple-checkbox>
     </template>
-    <template v-slot:[`item.is_superuser`]="{item}">
+    <template v-slot:[`item.is_superuser`]="{ item }">
       <v-simple-checkbox
         v-model="item.is_superuser"
         disabled
@@ -27,7 +27,7 @@
         </v-btn>
       </v-toolbar>
     </template>
-    <template v-slot:[`item.actions`]="{item}">
+    <template v-slot:[`item.actions`]="{ item }">
       <v-icon @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
@@ -50,10 +50,10 @@ export default {
         sortable: false,
         value: "id",
       },
-      {text: "OWNER ID", value: "owner_id"},
-      {text: "CREATED_DT", value: "created_dt"},
-      {text: "TOKEN", value: "token"},
-      {text: "Actions", value: "actions", sortable: false},
+      { text: "OWNER ID", value: "owner_id" },
+      { text: "CREATED_DT", value: "created_dt" },
+      { text: "TOKEN", value: "token" },
+      { text: "Actions", value: "actions", sortable: false },
     ],
     tokens: [],
   }),

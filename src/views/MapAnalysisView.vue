@@ -116,11 +116,11 @@ export default {
         sortable: false,
         value: "name",
       },
-      {text: "VOLTE 절단", value: "volte"},
-      {text: "S1AP 불량", value: "s1ap"},
-      {text: "MDT RSRP 불량", value: "rsrp"},
-      {text: "MDT RIP 불량", value: "rip"},
-      {text: "Iron (%)", value: "iron"},
+      { text: "VOLTE 절단", value: "volte" },
+      { text: "S1AP 불량", value: "s1ap" },
+      { text: "MDT RSRP 불량", value: "rsrp" },
+      { text: "MDT RIP 불량", value: "rip" },
+      { text: "Iron (%)", value: "iron" },
     ],
     rulist: [
       {

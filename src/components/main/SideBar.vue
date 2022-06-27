@@ -24,20 +24,20 @@
   </v-navigation-drawer>
 </template>
 <script>
-import {bus} from "@/event-bus";
+import { bus } from "@/event-bus";
 export default {
   data: () => ({
     items: [
-      {title: "Dashboard", icon: "mdi-view-dashboard"},
-      {title: "Photos", icon: "mdi-image"},
-      {title: "About", icon: "mdi-help-box"},
+      { title: "Dashboard", icon: "mdi-view-dashboard" },
+      { title: "Photos", icon: "mdi-image" },
+      { title: "About", icon: "mdi-help-box" },
     ],
     right: null,
     drawer: false,
   }),
   created() {
     console.log("created...");
-    bus.$on("DRAWER_CLICK", (drawer) => {
+    bus.$on("DRAWER_CLICK", drawer => {
       this.drawer = !drawer;
     });
     console.log(this.drawer);

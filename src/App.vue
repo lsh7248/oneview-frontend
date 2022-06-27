@@ -14,7 +14,7 @@ import AppBar from "@/components/main/AppBar.vue";
 import SideBar from "@/components/main/SideBar.vue";
 import FoosterBar from "@/components/main/FoosterBar.vue";
 
-import {mapState, mapMutations} from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "App",
   components: {
@@ -50,13 +50,13 @@ export default {
     ...mapMutations("auth", ["setAccess", "setRefresh", "initializeStore"]),
     getAccess() {
       const refresh_token = JSON.parse(
-        sessionStorage.getItem("userInfo")
+        sessionStorage.getItem("userInfo"),
       ).refresh;
       this.$axios.defaults.headers.common["Authorization"] =
         "Bearer " + refresh_token;
       this.$axios
         .post("/api/v1/jwt/refresh")
-        .then((res) => {
+        .then(res => {
           const access = res.data.access;
           const refresh = refresh_token;
 
@@ -73,7 +73,7 @@ export default {
             "Bearer " + access;
           console.log("SET HEADER TO NEW ACCESS TOKEN SUCCESS...");
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },

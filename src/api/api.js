@@ -1,5 +1,5 @@
 import service from "./service";
-import {API_URL, API} from "./config";
+import { API_URL, API } from "./config";
 
 export const api = {
   // User Register

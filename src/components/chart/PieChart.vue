@@ -1,5 +1,5 @@
 <script>
-import {Pie} from "vue-chartjs";
+import { Pie } from "vue-chartjs";
 
 export default {
   extends: Pie,
@@ -28,7 +28,7 @@ export default {
           },
         ],
       },
-      {responsive: true, maintainAspectRatio: false}
+      { responsive: true, maintainAspectRatio: false },
     );
   },
 };

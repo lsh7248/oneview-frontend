@@ -5,10 +5,10 @@
     sort-by="id"
     class="elevation-1"
   >
-    <template v-slot:[`item.is_active`]="{item}">
+    <template v-slot:[`item.is_active`]="{ item }">
       <v-simple-checkbox v-model="item.is_active" disabled></v-simple-checkbox>
     </template>
-    <template v-slot:[`item.is_superuser`]="{item}">
+    <template v-slot:[`item.is_superuser`]="{ item }">
       <v-simple-checkbox
         v-model="item.is_superuser"
         disabled
@@ -20,7 +20,7 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{on, attrs}">
+          <template v-slot:activator="{ on, attrs }">
             <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
               New User
             </v-btn>
@@ -105,7 +105,7 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:[`item.actions`]="{item}">
+    <template v-slot:[`item.actions`]="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
@@ -115,7 +115,7 @@
   </v-data-table>
 </template>
 <script>
-import {api} from "@/api/api";
+import { api } from "@/api/api";
 export default {
   data: () => ({
     dialog: false,
@@ -127,13 +127,13 @@ export default {
         sortable: false,
         value: "id",
       },
-      {text: "Employee ID", value: "employee_id"},
-      {text: "User active", value: "is_active"},
-      {text: "User admin", value: "is_superuser"},
-      {text: "User Name", value: "username"},
-      {text: "Email", value: "email"},
-      {text: "Phone", value: "phone"},
-      {text: "Actions", value: "actions", sortable: false},
+      { text: "Employee ID", value: "employee_id" },
+      { text: "User active", value: "is_active" },
+      { text: "User admin", value: "is_superuser" },
+      { text: "User Name", value: "username" },
+      { text: "Email", value: "email" },
+      { text: "Phone", value: "phone" },
+      { text: "Actions", value: "actions", sortable: false },
     ],
     users: [],
     editedIndex: -1,
@@ -178,11 +178,11 @@ export default {
     initialize() {
       api
         .getUsers()
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.users = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -196,10 +196,10 @@ export default {
     deleteItem(item) {
       api
         .deleteUser(item.id)
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
       this.editedIndex = this.users.indexOf(item);
@@ -243,10 +243,10 @@ export default {
 
         api
           .updateUser(parseInt(this.users[this.editedIndex].id), fromData)
-          .then((res) => {
+          .then(res => {
             console.log(res);
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       } else {
@@ -261,10 +261,10 @@ export default {
         };
         api
           .setUser(fromData)
-          .then((res) => {
+          .then(res => {
             console.log(res);
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       }

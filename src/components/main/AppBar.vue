@@ -12,7 +12,7 @@
     <v-spacer></v-spacer>
 
     <v-menu bottom left>
-      <template v-slot:activator="{on, attrs}">
+      <template v-slot:activator="{ on, attrs }">
         <v-btn icon color="yellow" v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
@@ -41,14 +41,14 @@
 </template>
 
 <script>
-import {bus} from "@/event-bus";
-import {mapMutations} from "vuex";
+import { bus } from "@/event-bus";
+import { mapMutations } from "vuex";
 export default {
   name: "AppBar",
 
   data: () => ({
     drawer: false,
-    appItems: [{title: "로그아웃"}],
+    appItems: [{ title: "로그아웃" }],
 
     tabItems: [
       {
@@ -86,24 +86,24 @@ export default {
 
       this.$axios
         .post("/api/v1/jwt/logout/access")
-        .then((res) => {
+        .then(res => {
           console.log("access token revoke completed...", res);
           this.$axios.defaults.headers.common["Authorization"] =
             "Bearer " + userInfo.refresh;
           this.$axios
             .post("/api/v1/jwt/logout/refresh")
-            .then((res) => {
+            .then(res => {
               console.log("refresh token revoke completed...", res);
               sessionStorage.removeItem("userInfo");
               this.$axios.defaults.headers.common["Authorization"] = "";
               this.setIsLogin(false);
               this.$router.push("/login");
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err);
             });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
