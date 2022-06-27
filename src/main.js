@@ -8,7 +8,9 @@ import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 Vue.prototype.$axios = axios;
-
+// Vue.prototype.$apiServer = "http://172.20.10.4:3000";
+// Vue.prototype.apiServer = "https://jsonplaceholder.typicode.com:3000";
+Vue.prototype.$apiServer = "http://localhost:3000";
 Vue.config.productionTip = false;
 
 new Vue({

@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  text: "UpDownArrow",
+  name: "UpDownArrow",
   props: {
     value: Number,
     text: String,

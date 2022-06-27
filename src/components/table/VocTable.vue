@@ -1,23 +1,21 @@
 <template>
-  <div>
-    <v-row class="pb-0 ma-0">
-      <v-col sm="12" md="2" lg="2" class="py-0 ma-0">
-        <v-card-title>
-          <!-- VOC 목록  -->
-        </v-card-title>
+  <div style="margin: 0px; padding: 0px">
+    <v-row dense class="pb-0 ma-0">
+      <v-col cols="0" sm="0" md="2" lg="5" class="pa-0 ma-0">
+        <v-card-title> VOC 목록 </v-card-title>
       </v-col>
-      <v-col sm="12" md="3" lg="3" class="py-0 ma-0">
+      <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0">
         <v-menu
           v-model="menu2"
           :close-on-content-click="false"
-          :nudge-right="40"
           transition="scale-transition"
           offset-y
+          max-width="290px"
           min-width="auto"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date"
+              v-model="date기준년월일"
               label="기준년월일"
               prepend-icon="mdi-calendar"
               readonly
@@ -27,34 +25,35 @@
           </template>
           <v-date-picker
             locale="ko-KR"
-            v-model="date"
+            v-model="date기준년월일"
+            no-title
             @input="menu2 = false"
           ></v-date-picker>
         </v-menu>
       </v-col>
-      <v-col sm="12" md="3" lg="3" class="py-0 ma-0">
+      <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0">
         <v-select
           :items="items_기지국사업본부"
           label="기지국사업본부"
         ></v-select>
       </v-col>
-      <v-col sm="12" md="3" lg="3" class="py-0 ma-0">
+      <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0">
         <v-text-field
           v-model="message1"
           label="서비스계약번호"
           clearable
         ></v-text-field>
       </v-col>
-
-      <v-col sm="12" md="1" lg="1" class="py-0 ma-0">
+      <v-col cols="12" sm="6" md="1" class="py-0 ma-0">
         <v-btn
           :style="{
             marginTop: '10px',
             whiteSpace: 'nowrap',
+            marginBottom: '10px',
           }"
           @click="
             () => {
-              getData_VOC목록();
+              fetch_VOC목록();
             }
           "
           depressed
@@ -64,18 +63,18 @@
         >
       </v-col>
     </v-row>
-    <v-row dense class="pa-0 ma=0">
-      <v-col cols="12">
+    <v-row class="pa-0 ma-0">
+      <v-col cols="12" class="pa-0 ma-0">
         <v-data-table
           dense
           :headers="keys2headers(Object.keys(items_VOC목록[0]))"
           :items="items_VOC목록"
           hide-default-footer
-          class="elevation-1"
+          class="pa-0 ma-0"
           :style="{
             // marginTop: '10px',
-            marginLeft: '5px',
-            marginRight: '5px',
+            // marginLeft: '5px',
+            // marginRight: '5px',
             whiteSpace: 'nowrap',
           }"
         >
@@ -88,18 +87,25 @@
 <script>
 export default {
   text: "VocTable",
-  data: function () {
-    return {
-      items_기지국사업본부: [
-        "기지국사업본부1",
-        "기지국사업본부2",
-        "기지국사업본부3",
-        "기지국사업본부4",
-      ],
-      items_VOC목록: [],
-      headers_VOC목록: [],
-    };
-  },
+  data: () => ({
+    date기준년월일: new Date(
+      Date.now() - new Date().getTimezoneOffset() * 60000,
+    )
+      .toISOString()
+      .substr(0, 10),
+    menu: false,
+    modal: false,
+    menu2: false,
+
+    items_기지국사업본부: [
+      "기지국사업본부1",
+      "기지국사업본부2",
+      "기지국사업본부3",
+      "기지국사업본부4",
+    ],
+    items_VOC목록: [],
+    headers_VOC목록: [],
+  }),
   watch: {
     items_VOC목록: function (n) {
       var tmplst = [];
@@ -114,8 +120,7 @@ export default {
         });
       });
       this.headers_VOC목록 = tmplst;
-      console.log(tmplst);
-      console.log("tmplst");
+      // console.log(tmplst);
     },
   },
   methods: {
@@ -134,9 +139,10 @@ export default {
       });
       return tmplst;
     },
-    async getData_VOC목록() {
+    async fetch_VOC목록() {
       this.items_VOC목록 = await this.$axios
-        .get("http://localhost:3000/voc-list")
+        .get(this.$apiServer + "/voc-list")
+        // .get("http://localhost:3000/voc-list")
         // .get("https://jsonplaceholder.typicode.com/users")
         .then(function (response) {
           // console.log(response.data.slice(0, 10));
@@ -151,7 +157,7 @@ export default {
     },
   },
   mounted() {
-    this.getData_VOC목록();
+    this.fetch_VOC목록();
   },
 };
 </script>
