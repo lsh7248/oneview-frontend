@@ -19,6 +19,11 @@ module.exports = {
   plugins: ["prettier"],
   // 사용자 편의 규칙 추가
   rules: {
+    "linebreak-style": [
+      "error",
+      require("os").EOL === "\r\n" ? "windows" : "unix",
+    ],
+
     "prettier/prettier": [
       "error",
       // 아래 규칙들은 개인 선호에 따라 prettier 문법 적용
@@ -32,6 +37,7 @@ module.exports = {
         printWidth: 80,
         bracketSpacing: true,
         arrowParens: "avoid",
+        endOfLine: "auto",
       },
     ],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
