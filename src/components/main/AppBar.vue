@@ -56,12 +56,12 @@ export default {
         to: "/dashboard",
       },
       {
-        name: "VOC 분석",
+        name: "VOC 상세분석",
         to: "/map",
       },
       {
-        name: "VOC 상세분석",
-        to: "/map",
+        name: "기지국품질 상세분석",
+        to: "/bts",
       },
       {
         name: "게시판",
