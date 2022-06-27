@@ -3,37 +3,52 @@ import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
-  mounted() {
-    this.renderChart(
-      {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-        ],
-        datasets: [
-          {
-            label: "Data 1",
-            data: [2, 10, 5, 9, 0, 6, 20],
-            backgroundColor: "transparent",
-            borderColor: "rgba(1, 116, 188, 0.50)",
-            pointBackgroundColor: "rgba(171, 71, 188, 1)",
-          },
-        ],
-      },
-      {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: "My Data",
+  props: {
+    title: String,
+    labels: {
+      type: Array,
+      default: () => [],
+    },
+    datasets: [],
+  },
+
+  watch: {
+    labels: function () {
+      // this.destroy();
+      this.render();
+    },
+    datasets: function () {
+      // this.destroy();
+      this.render();
+    },
+  },
+  methods: {
+    render: function () {
+      // console.log("labels", this.labels);
+      // console.log("datasets", this.datasets);
+      this.renderChart(
+        {
+          labels: this.labels,
+          datasets: this.datasets,
         },
-      },
-    );
+        {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            display: true,
+            // position: "top",
+            position: "chartArea",
+          },
+          title: {
+            display: true,
+            text: this.title,
+          },
+        },
+      );
+    },
+  },
+  mounted() {
+    this.render();
   },
 };
 </script>

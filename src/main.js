@@ -12,7 +12,9 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:8000/"; // the FastAPI backend
 Vue.prototype.$axios = axios;
-
+// Vue.prototype.$apiServer = "http://172.20.10.4:3000";
+// Vue.prototype.apiServer = "https://jsonplaceholder.typicode.com:3000";
+Vue.prototype.$apiServer = "http://localhost:3000";
 Vue.config.productionTip = false;
 
 Vue.use(VuetifyDialog, {
