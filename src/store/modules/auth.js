@@ -9,6 +9,7 @@ const auth = {
     access: "",
     refresh: "",
     isLogin: false,
+    userId: "",
   },
   getters: {
     getAccess(state) {
