@@ -59,7 +59,6 @@ export default {
         .then((res) => {
           const access = res.data.access;
           const refresh = refresh_token;
-
           console.log("New access Token: ", access);
           const userInfo = {
             access: access,
