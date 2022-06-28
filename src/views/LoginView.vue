@@ -91,7 +91,7 @@
                         v-model="registerForm.userID"
                         name="username"
                         prepend-icon="mdi-account-clock"
-                        :rules="[v => !!v || 'ID is required']"
+                        :rules="[(v) => !!v || 'ID is required']"
                         type="text"
                         color="primary accent-3"
                       />
@@ -128,7 +128,7 @@
                         v-model="registerForm.userPassword"
                         label="비밀번호"
                         name="password"
-                        :rules="[v => !!v || 'Password is required']"
+                        :rules="[(v) => !!v || 'Password is required']"
                         prepend-icon="mdi-lock"
                         type="password"
                         color="primary accent-3"
@@ -211,7 +211,7 @@ export default {
       console.log(formData);
       this.$axios
         .post("http://localhost:8000/api/v1/jwt/login", formData)
-        .then(res => {
+        .then((res) => {
           console.log(res);
 
           const access = res.data.access;
@@ -230,7 +230,7 @@ export default {
           this.setIsLogin(true);
           this.$router.push("/");
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -247,12 +247,12 @@ export default {
       console.log(formData);
       this.$axios
         .post("http://localhost:8000/api/v1/users", formData)
-        .then(res => {
+        .then((res) => {
           console.log("REGISTER POST RES", res);
           alert(`user ${res.data.employee_id} register OK`);
           this.me = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("REGISTER POST ERR.RESPONSE", err.response);
           alert("REGISTER Fail ");
         });

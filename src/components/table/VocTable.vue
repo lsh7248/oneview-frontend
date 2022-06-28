@@ -89,7 +89,7 @@ export default {
   text: "VocTable",
   data: () => ({
     date기준년월일: new Date(
-      Date.now() - new Date().getTimezoneOffset() * 60000,
+      Date.now() - new Date().getTimezoneOffset() * 60000
     )
       .toISOString()
       .substr(0, 10),
@@ -109,7 +109,7 @@ export default {
   watch: {
     items_VOC목록: function (n) {
       var tmplst = [];
-      Object.keys(n[0]).forEach(element => {
+      Object.keys(n[0]).forEach((element) => {
         tmplst.push({
           class: "light-blue lighten-5",
           text: element,
@@ -126,7 +126,7 @@ export default {
   methods: {
     keys2headers(keys) {
       var tmplst = [];
-      keys.forEach(element => {
+      keys.forEach((element) => {
         tmplst.push({
           class: "light-blue lighten-5",
           // class: "grey lighten-5",

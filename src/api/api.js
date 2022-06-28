@@ -26,9 +26,44 @@ export const api = {
   deleteUser(userId) {
     return service.delete(`${API_URL}${API.user(userId)}`);
   },
-  // Get Vocs
-  getVocs(params) {
-    return service.get(`${API_URL}${API.vocs}`, params);
+
+  // Get VocLists
+  getVocLists(limit, team, start_date, end_date) {
+    return service.get(
+      `${API_URL}${API.vocs}?limit=${limit}&?team=${team}&?start_date=${start_date}&?end_date=${end_date}`
+    );
+  },
+  // Get Voc Worst TOP10 BTS
+  getVocBts(limit, team, start_date, end_date) {
+    return service.get(
+      `${API_URL}${API.vocs}?limit=${limit}&?team=${team}&?start_date=${start_date}&?end_date=${end_date}`
+    );
+  },
+  // Get Daily Voc Trend
+  getVocTrendDay(team, start_date, end_date) {
+    return service.get(
+      `${API_URL}${API.vocs}?team=${team}&?start_date=${start_date}&?end_date=${end_date}`
+    );
+  },
+  // Get Daily Voc Event
+  getVocEventDay(team, date) {
+    return service.get(`${API_URL}${API.vocs}?team=${team}&?date=${date}`);
+  },
+  // Get Volte Worst TOP10 BTS
+  getVolteBts(limit, team, start_date, end_date) {
+    return service.get(
+      `${API_URL}${API.volte}?limit=${limit}&?team=${team}&?start_date=${start_date}&?end_date=${end_date}`
+    );
+  },
+  // Get Daily Volte Trend
+  getVolteTrendDay(team, start_date, end_date) {
+    return service.get(
+      `${API_URL}${API.volte}?team=${team}&?start_date=${start_date}&?end_date=${end_date}`
+    );
+  },
+  // Get Daily Volte Event
+  getVolteEventDay(team, date) {
+    return service.get(`${API_URL}${API.volte}?team=${team}&?date=${date}`);
   },
 };
 

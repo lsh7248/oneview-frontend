@@ -37,7 +37,7 @@ export default {
   }),
   created() {
     console.log("created...");
-    bus.$on("DRAWER_CLICK", drawer => {
+    bus.$on("DRAWER_CLICK", (drawer) => {
       this.drawer = !drawer;
     });
     console.log(this.drawer);

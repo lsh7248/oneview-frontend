@@ -17,7 +17,7 @@
               >
                 <v-spacer></v-spacer>
                 {{
-                  briefStat.find(element => {
+                  briefStat.find((element) => {
                     if (element.title === "품질 VOC 발생 건수 (전일 대비)") {
                       return true;
                     }
@@ -26,14 +26,14 @@
                 <up-down-arrow
                   class="mx-2"
                   :value="
-                    briefStat.find(element => {
+                    briefStat.find((element) => {
                       if (element.title === '품질 VOC 발생 건수 (전일 대비)') {
                         return true;
                       }
                     })['increase rate']
                   "
                   :text="
-                    briefStat.find(element => {
+                    briefStat.find((element) => {
                       if (element.title === '품질 VOC 발생 건수 (전일 대비)') {
                         return true;
                       }
@@ -57,7 +57,7 @@
                   getSequentialDates(`2022-06-08`, `2022-06-14`, date2yyyyMMdd),
                   `날짜`,
                   `VOC 건수`,
-                  KPIDaily,
+                  KPIDaily
                 ),
 
                 backgroundColor: `transparent`,
@@ -70,7 +70,7 @@
                   getSequentialDates(`2022-06-01`, `2022-06-07`, date2yyyyMMdd),
                   `날짜`,
                   `VOC 건수`,
-                  KPIDaily,
+                  KPIDaily
                 ),
                 backgroundColor: `transparent`,
                 borderColor: `DeepSkyBlue`,
@@ -110,7 +110,7 @@
               >
                 <v-spacer></v-spacer>
                 {{
-                  briefStat.find(element => {
+                  briefStat.find((element) => {
                     if (element.title === "VoLTE 절단율 (전일 대비)") {
                       return true;
                     }
@@ -119,14 +119,14 @@
                 <up-down-arrow
                   class="mx-2"
                   :value="
-                    briefStat.find(element => {
+                    briefStat.find((element) => {
                       if (element.title === 'VoLTE 절단율 (전일 대비)') {
                         return true;
                       }
                     })['increase rate']
                   "
                   :text="
-                    briefStat.find(element => {
+                    briefStat.find((element) => {
                       if (element.title === 'VoLTE 절단율 (전일 대비)') {
                         return true;
                       }
@@ -150,7 +150,7 @@
                   getSequentialDates(`2022-06-08`, `2022-06-14`, date2yyyyMMdd),
                   `날짜`,
                   `VoLTE 절단율(%)`,
-                  KPIDaily,
+                  KPIDaily
                 ),
 
                 backgroundColor: `transparent`,
@@ -163,7 +163,7 @@
                   getSequentialDates(`2022-06-01`, `2022-06-07`, date2yyyyMMdd),
                   `날짜`,
                   `VoLTE 절단율(%)`,
-                  KPIDaily,
+                  KPIDaily
                 ),
                 backgroundColor: `transparent`,
                 borderColor: `DeepSkyBlue`,
@@ -204,7 +204,7 @@
               >
                 <v-spacer></v-spacer>
                 {{
-                  briefStat.find(element => {
+                  briefStat.find((element) => {
                     if (element.title === "5G 오프로딩율 (전주 대비)") {
                       return true;
                     }
@@ -213,14 +213,14 @@
                 <up-down-arrow
                   class="mx-2"
                   :value="
-                    briefStat.find(element => {
+                    briefStat.find((element) => {
                       if (element.title === '5G 오프로딩율 (전주 대비)') {
                         return true;
                       }
                     })['increase rate']
                   "
                   :text="
-                    briefStat.find(element => {
+                    briefStat.find((element) => {
                       if (element.title === '5G 오프로딩율 (전주 대비)') {
                         return true;
                       }
@@ -345,7 +345,7 @@ export default {
   watch: {
     items_VOC발생Top10Worst: function (n) {
       var tmplst = [];
-      Object.keys(n[0]).forEach(element => {
+      Object.keys(n[0]).forEach((element) => {
         switch (element) {
           // case "순위":
           case "VOC 건수":
@@ -374,7 +374,7 @@ export default {
     },
     items_VoLTE절단율Top10Worst: function (n) {
       var tmplst = [];
-      Object.keys(n[0]).forEach(element => {
+      Object.keys(n[0]).forEach((element) => {
         switch (element) {
           // case "순위":
           case "VoLTE 절단율(%)":
@@ -404,7 +404,7 @@ export default {
 
     items_5G오프로딩율Top10Worst: function (n) {
       var tmplst = [];
-      Object.keys(n[0]).forEach(element => {
+      Object.keys(n[0]).forEach((element) => {
         switch (element) {
           // case "순위":
           case "5G 오프로딩율 목표 대비(%p)":
@@ -449,7 +449,7 @@ export default {
     getSequentialDates(
       notLessThan,
       notGreaterThan,
-      formatBeforeReturn = d => d,
+      formatBeforeReturn = (d) => d
     ) {
       var dates = [];
       var curr = new Date(notLessThan);
@@ -465,17 +465,17 @@ export default {
       xs = [],
       keyName = "날짜",
       valueName = "VOC 건수",
-      d = this.KPIDaily,
+      d = this.KPIDaily
     ) {
       var tmp = [];
-      xs.forEach(x => {
+      xs.forEach((x) => {
         try {
           tmp.push(
-            d.find(element => {
+            d.find((element) => {
               if (element[keyName] === x) {
                 return true;
               }
-            })[valueName],
+            })[valueName]
           );
         } catch (error) {
           tmp.push(null);

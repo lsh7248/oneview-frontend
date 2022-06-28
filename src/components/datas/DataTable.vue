@@ -128,12 +128,12 @@ export default {
     initialize() {
       api
         .getVocs()
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.vocs = res.data;
           console.log("vocs: ", this.vocs);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },

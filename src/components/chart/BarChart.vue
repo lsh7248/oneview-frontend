@@ -50,7 +50,7 @@ export default {
           display: true,
           text: "5G 오프로딩율 (%)",
         },
-      },
+      }
     );
   },
 };

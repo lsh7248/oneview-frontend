@@ -17,7 +17,7 @@ const service = axios.create({
 });
 
 service.interceptors.request.use(
-  async config => {
+  async (config) => {
     const userInfo = sessionStorage.getItem("userInfo");
     console.log("interceptor userInfo: ", userInfo);
     const accessToken = userInfo ? JSON.parse(userInfo).access : null;
@@ -28,14 +28,14 @@ service.interceptors.request.use(
     };
     return config;
   },
-  error => {
+  (error) => {
     Promise.reject(error);
-  },
+  }
 );
 
 // Response interceptor for API calls
 service.interceptors.response.use(
-  response => {
+  (response) => {
     return response;
   },
   async function (error) {
@@ -54,7 +54,7 @@ service.interceptors.response.use(
       return axios(originalRequest);
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 // 각 메소드별 함수를 생성해 주세요.

@@ -222,11 +222,11 @@ export default {
     initialize() {
       api
         .getUsers()
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.users = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -240,10 +240,10 @@ export default {
     deleteItem(item) {
       api
         .deleteUser(item.id)
-        .then(res => {
+        .then((res) => {
           console.log(res);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
       this.editedIndex = this.users.indexOf(item);
@@ -292,10 +292,10 @@ export default {
 
         api
           .updateUser(parseInt(this.users[this.editedIndex].id), fromData)
-          .then(res => {
+          .then((res) => {
             console.log(res);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       } else {
@@ -310,10 +310,10 @@ export default {
         };
         api
           .setUser(fromData)
-          .then(res => {
+          .then((res) => {
             console.log(res);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       }

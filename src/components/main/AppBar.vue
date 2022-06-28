@@ -86,24 +86,24 @@ export default {
 
       this.$axios
         .post("/api/v1/jwt/logout/access")
-        .then(res => {
+        .then((res) => {
           console.log("access token revoke completed...", res);
           this.$axios.defaults.headers.common["Authorization"] =
             "Bearer " + userInfo.refresh;
           this.$axios
             .post("/api/v1/jwt/logout/refresh")
-            .then(res => {
+            .then((res) => {
               console.log("refresh token revoke completed...", res);
               sessionStorage.removeItem("userInfo");
               this.$axios.defaults.headers.common["Authorization"] = "";
               this.setIsLogin(false);
               this.$router.push("/login");
             })
-            .catch(err => {
+            .catch((err) => {
               console.log(err);
             });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
