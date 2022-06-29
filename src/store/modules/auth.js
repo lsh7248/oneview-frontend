@@ -1,15 +1,18 @@
 const auth = {
   namespaced: true,
   state: {
-    // userContainer: {
-    //   userId: null,
-    //   userPassword: null,
-    //   isLogin: false,
-    // },
+    userContainer: {
+      userId: "",
+      userName: "",
+      auth: "",
+      userBelong1: "",
+      userBelong2: "",
+      userBelong3: "",
+      userBelong4: "",
+    },
     access: "",
     refresh: "",
     isLogin: false,
-    userId: "",
   },
   getters: {
     getAccess(state) {
@@ -20,6 +23,9 @@ const auth = {
     },
     getIsLogin(state) {
       return state.isLogin;
+    },
+    getUserContainer(state) {
+      return state.userContainer;
     },
   },
   mutations: {
@@ -34,6 +40,15 @@ const auth = {
         state.access = "";
         state.refresh = "";
         state.isLogin = false;
+        state.userContainer = {
+          userId: "",
+          userName: "",
+          auth: "",
+          userBelong1: "",
+          userBelong2: "",
+          userBelong3: "",
+          userBelong4: "",
+        };
       }
     },
     setAccess(state, access) {
@@ -44,6 +59,17 @@ const auth = {
     },
     setIsLogin(state, bool) {
       state.isLogin = bool;
+    },
+    setUserContainer(state, payload) {
+      state.userContainer = {
+        userId: payload.userId,
+        userName: payload.userName,
+        auth: payload.auth,
+        userBelong1: payload.userBelong2,
+        userBelong2: payload.userBelong2,
+        userBelong3: payload.userBelong3,
+        userBelong4: payload.userBelong4,
+      };
     },
   },
   actions: {},

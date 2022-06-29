@@ -2,7 +2,11 @@
   <v-navigation-drawer app v-model="drawer" absolute temporary>
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="text-h6"> Application </v-list-item-title>
+        <v-list-item-title class="text-h6">
+          사용자ID: {{ userContainer.userId }} 사용자이름:
+          {{ userContainer.userName }} 사용자 소속:
+          {{ userContainer.userBelong3 }}
+        </v-list-item-title>
         <v-list-item-subtitle> subtext </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -25,6 +29,7 @@
 </template>
 <script>
 import { bus } from "@/event-bus";
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
     items: [
@@ -41,6 +46,9 @@ export default {
       this.drawer = !drawer;
     });
     console.log(this.drawer);
+  },
+  computed: {
+    ...mapGetters("auth", { userContainer: "getUserContainer" }),
   },
 };
 </script>

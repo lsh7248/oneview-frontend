@@ -1,6 +1,7 @@
 export const API_URL = "http://localhost:8000/api/v1/";
 
 export const API = {
+  auth: "jwt",
   users: "users", // API list의 구조를 나열해주세요.
   user: (userId) => `users/${userId}`,
   blacklists: "blacklists",

@@ -2,6 +2,20 @@ import service from "./service";
 import { API_URL, API } from "./config";
 
 export const api = {
+  // Login User
+  loginUser(params) {
+    return service.post(`${API_URL}${API.auth}/login`, params);
+  },
+  logoutAccessToken() {
+    return service.post(`${API_URL}${API.auth}/logout/access`);
+  },
+  logoutRefreshToken() {
+    return service.post(`${API_URL}${API.auth}/logout/refresh`);
+  },
+  refreshToken() {
+    return service.post(`${API_URL}${API.auth}/refresh`);
+  },
+
   // User Register
   getUser(userId) {
     return service.get(`${API_URL}${API.user(userId)}`);
@@ -48,7 +62,7 @@ export const api = {
   // Get Daily Voc Event
   getVocEventDay(team, date) {
     return service.get(
-      `${API_URL}${API.vocs}/event/day?team=${team}&?date=${date}`
+      `${API_URL}${API.vocs}/kpi/day?team=${team}&?date=${date}`
     );
   },
   // Get Volte Worst TOP10 BTS
@@ -66,7 +80,7 @@ export const api = {
   // Get Daily Volte Event
   getVolteEventDay(team, date) {
     return service.get(
-      `${API_URL}${API.volte}/event/day?team=${team}&?date=${date}`
+      `${API_URL}${API.volte}/kpi/day?team=${team}&?date=${date}`
     );
   },
 };

@@ -165,17 +165,18 @@
 
 <script>
 import { mapMutations } from "vuex";
+import { api } from "@/api/api";
 
 export default {
   data: () => ({
     authList: [
       { name: "관리자", value: "ADMIN" },
-      { name: "스탭", value: "STAFF" },
       { name: "임원", value: "EXECE" },
+      { name: "팀장", value: "LEADER" },
       { name: "직원", value: "USER" },
     ],
     step: 1,
-    items: ["관리자", "임원", "스탭", "직원"],
+    items: ["관리자", "임원", "팀장", "직원"],
     registerForm: {
       userID: "",
       userName: "",
@@ -198,7 +199,12 @@ export default {
   unmounted() {},
 
   methods: {
-    ...mapMutations("auth", ["setAccess", "setRefresh", "setIsLogin"]),
+    ...mapMutations("auth", [
+      "setAccess",
+      "setRefresh",
+      "setIsLogin",
+      "setUserContainer",
+    ]),
     login() {
       console.log("login() ...");
       this.$axios.defaults.headers.common["Authorization"] = "";
@@ -209,8 +215,8 @@ export default {
         password: this.loginForm.userPassword,
       };
       console.log(formData);
-      this.$axios
-        .post("http://localhost:8000/api/v1/jwt/login", formData)
+      api
+        .loginUser(formData)
         .then((res) => {
           console.log(res);
 
@@ -224,10 +230,12 @@ export default {
             access: access,
             refresh: refresh,
           };
+          this.getUserContainer();
           console.log("login Suc! ", userInfo);
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           console.log("session Storage: ", sessionStorage.getItem("userInfo"));
           this.setIsLogin(true);
+
           this.$router.push("/");
         })
         .catch((err) => {
@@ -245,8 +253,8 @@ export default {
         // re_password: this.registerForm.userPassword2,
       };
       console.log(formData);
-      this.$axios
-        .post("http://localhost:8000/api/v1/users", formData)
+      api
+        .setUser(formData)
         .then((res) => {
           console.log("REGISTER POST RES", res);
           alert(`user ${res.data.employee_id} register OK`);
@@ -255,6 +263,28 @@ export default {
         .catch((err) => {
           console.log("REGISTER POST ERR.RESPONSE", err.response);
           alert("REGISTER Fail ");
+        });
+    },
+    getUserContainer() {
+      console.log("Get User Infomation init...");
+      api
+        .getMe()
+        .then((res) => {
+          console.log(res);
+          const userContainer = {
+            userId: res.data.employee_id,
+            userName: res.data.username,
+            auth: res.data.auth,
+            userBelong1: res.data.belong_1,
+            userBelong2: res.data.belong_2,
+            userBelong3: res.data.belong_3,
+            userBelong4: res.data.belong_4,
+          };
+          console.log("GET ME DATA: ", userContainer);
+          this.setUserContainer(userContainer);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },

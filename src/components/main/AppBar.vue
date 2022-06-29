@@ -43,6 +43,7 @@
 <script>
 import { bus } from "@/event-bus";
 import { mapMutations } from "vuex";
+import { api } from "@/api/api";
 export default {
   name: "AppBar",
 
@@ -84,14 +85,14 @@ export default {
       this.$axios.defaults.headers.common["Authorization"] =
         "Bearer " + userInfo.access;
 
-      this.$axios
-        .post("/api/v1/jwt/logout/access")
+      api
+        .logoutAccessToken()
         .then((res) => {
           console.log("access token revoke completed...", res);
           this.$axios.defaults.headers.common["Authorization"] =
             "Bearer " + userInfo.refresh;
-          this.$axios
-            .post("/api/v1/jwt/logout/refresh")
+          api
+            .logoutRefreshToken()
             .then((res) => {
               console.log("refresh token revoke completed...", res);
               sessionStorage.removeItem("userInfo");
