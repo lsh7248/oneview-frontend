@@ -3,11 +3,14 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="text-h6">
-          사용자ID: {{ userContainer.userId }} 사용자이름:
-          {{ userContainer.userName }} 사용자 소속:
-          {{ userContainer.userBelong3 }}
+          사용자ID: {{ userContainer.userId }}
         </v-list-item-title>
-        <v-list-item-subtitle> subtext </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          사용자이름: {{ userContainer.userName }}
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          사용자소속: {{ userContainer.userBelong3 }}
+        </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 

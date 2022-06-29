@@ -7,14 +7,14 @@ import VuetifyDialog from "vuetify-dialog";
 import "vuetify-dialog/dist/vuetify-dialog.css";
 
 import axios from "axios";
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://localhost:8000/"; // the FastAPI backend
+// axios.defaults.xsrfCookieName = "csrftoken";
+// axios.defaults.xsrfHeaderName = "X-CSRFToken";
+// axios.defaults.withCredentials = true;
+// axios.defaults.baseURL = "http://localhost:8000/"; // the FastAPI backend
 Vue.prototype.$axios = axios;
+Vue.prototype.$apiServer = "http://localhost:8000";
 // Vue.prototype.$apiServer = "http://172.20.10.4:3000";
 // Vue.prototype.apiServer = "https://jsonplaceholder.typicode.com:3000";
-Vue.prototype.$apiServer = "http://localhost:8000";
 Vue.config.productionTip = false;
 
 Vue.use(VuetifyDialog, {
