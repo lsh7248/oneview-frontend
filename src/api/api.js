@@ -6,17 +6,17 @@ export const api = {
   loginUser(params) {
     return service.post(`${API_URL}${API.auth}/login`, params);
   },
-  logoutAccessToken() {
-    return service.post(`${API_URL}${API.auth}/logout/access`);
+  logoutAccessToken(token) {
+    return service.logout(`${API_URL}${API.auth}/logout/access`, token);
   },
-  logoutRefreshToken() {
-    return service.post(`${API_URL}${API.auth}/logout/refresh`);
+  logoutRefreshToken(token) {
+    return service.logout(`${API_URL}${API.auth}/logout/refresh`, token);
   },
   refreshToken() {
     return service.post(`${API_URL}${API.auth}/refresh`);
   },
 
-  // User Register
+  // User Registerd
   getUser(userId) {
     return service.get(`${API_URL}${API.user(userId)}`);
   },

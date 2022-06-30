@@ -44,11 +44,9 @@ export default {
     drawer: false,
   }),
   created() {
-    console.log("created...");
     bus.$on("DRAWER_CLICK", (drawer) => {
       this.drawer = !drawer;
     });
-    console.log(this.drawer);
   },
   computed: {
     ...mapGetters("auth", { userContainer: "getUserContainer" }),

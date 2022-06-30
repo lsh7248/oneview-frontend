@@ -1,7 +1,8 @@
 // axios 호출 Interface 생성
 
 import axios from "axios";
-import { refreshAccessToken } from "@/utils/authUtils";
+import { API_URL } from "./config";
+// import { refreshAccessToken } from "@/utils/authUtils";
 
 // axios.defaults.xsrfCookieName = "csrftoken";
 // axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -9,7 +10,7 @@ import { refreshAccessToken } from "@/utils/authUtils";
 // axios.defaults.baseURL = "http://localhost:8000/"; // the FastAPI backend
 
 const service = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1",
+  baseURL: API_URL,
   timeout: 3000,
   withCredentials: true,
   xsrfCookieName: "csrftoken",
@@ -19,9 +20,10 @@ const service = axios.create({
 service.interceptors.request.use(
   async (config) => {
     const userInfo = sessionStorage.getItem("userInfo");
-    console.log("interceptor userInfo: ", userInfo);
+    // console.log("interceptor request setting...");
+    // console.log("interceptor userInfo: ", userInfo);
     const accessToken = userInfo ? JSON.parse(userInfo).access : null;
-    console.log("interceptor access: ", accessToken);
+    // console.log("interceptor access: ", accessToken);
     config.headers = {
       Authorization: `Bearer ${accessToken}`,
       Accept: "application/json",
@@ -40,18 +42,52 @@ service.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      console.log("토큰 만료");
+    if (
+      (error.response.status === 401 || error.response.status === 422) &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       const sessionObj = sessionStorage.getItem("userInfo");
       let userInfo = sessionObj ? JSON.parse(sessionObj) : null;
-      const access_token = await refreshAccessToken(userInfo.refreshToken);
-      if (userInfo) {
-        originalRequest.headers["Authorization"] = "Bearer " + access_token;
-        userInfo.accessToken = access_token;
-        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-      }
-      return axios(originalRequest);
+      console.log(
+        "Refresh Token 체크 userInfo.refreshToken: ",
+        userInfo.refresh
+      );
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + userInfo.refresh;
+      axios
+        .post(`${API_URL}jwt/refresh`)
+        .then((res) => {
+          console.log("New access Token: ", res.data.access);
+          const access_token = res.data.access;
+          if (userInfo) {
+            originalRequest.headers["Authorization"] = "Bearer " + access_token;
+            userInfo.access = access_token;
+            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+            console.log(
+              "Access 토큰 변경 완료, ",
+              sessionStorage.getItem("userInfo")
+            );
+          }
+          return axios(originalRequest);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert(err);
+        });
+
+      // const access_token = await refreshAccessToken(userInfo.refresh);
+      // console.log("New access Token: ", access_token);
+      // if (userInfo) {
+      //   originalRequest.headers["Authorization"] = "Bearer " + access_token;
+      //   userInfo.access = access_token;
+      //   sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+      //   console.log(
+      //     "Access 토큰 변경 완료, ",
+      //     sessionStorage.getItem("userInfo")
+      //   );
+      // }
+      // return axios(originalRequest);
     }
     return Promise.reject(error);
   }
@@ -82,6 +118,19 @@ export default {
       const res = await service.post(...options);
       return res;
     } catch (e) {
+      alert("POST ERROR!");
+      return e;
+    }
+  },
+
+  async logout(url, token) {
+    try {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      console.log("HEADER: ", axios.defaults.headers.common["Authorization"]);
+      const res = await axios.post(url);
+      return res;
+    } catch (e) {
+      alert("LOGOUT ERROR!");
       return e;
     }
   },

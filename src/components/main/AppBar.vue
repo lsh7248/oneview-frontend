@@ -75,24 +75,26 @@ export default {
     ],
   }),
   methods: {
-    ...mapMutations("auth", ["setIsLogin"]),
+    ...mapMutations("auth", ["setIsLogin", "initializeStore"]),
     drawerClick() {
       bus.$emit("DRAWER_CLICK", this.drawer);
     },
     logout() {
       console.log("logout init...");
       const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-      this.$axios.defaults.headers.common["Authorization"] =
-        "Bearer " + userInfo.access;
-
+      const access = userInfo.access;
+      const refresh = userInfo.refresh;
+      // this.$axios.defaults.headers.common["Authorization"] =
+      //   "Bearer " + userInfo.access;
       api
-        .logoutAccessToken()
+        .logoutAccessToken(access)
         .then((res) => {
           console.log("access token revoke completed...", res);
-          this.$axios.defaults.headers.common["Authorization"] =
-            "Bearer " + userInfo.refresh;
+          console.log("logout refresh token...", refresh);
+          // this.$axios.defaults.headers.common["Authorization"] =
+          //   "Bearer " + userInfo.refresh;
           api
-            .logoutRefreshToken()
+            .logoutRefreshToken(refresh)
             .then((res) => {
               console.log("refresh token revoke completed...", res);
               sessionStorage.removeItem("userInfo");
@@ -102,6 +104,7 @@ export default {
             })
             .catch((err) => {
               console.log(err);
+              console.log("err config: ", err.config);
             });
         })
         .catch((err) => {

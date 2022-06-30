@@ -207,7 +207,7 @@ export default {
     ]),
     login() {
       console.log("login() ...");
-      this.$axios.defaults.headers.common["Authorization"] = "";
+      // this.$axios.defaults.headers.common["Authorization"] = "";
       sessionStorage.removeItem("userInfo");
 
       const formData = {
