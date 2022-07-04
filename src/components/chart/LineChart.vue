@@ -3,6 +3,7 @@ import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
+
   props: {
     title: String,
     labels: {
@@ -10,6 +11,16 @@ export default {
       default: () => [],
     },
     datasets: [],
+    yAxes: {
+      type: Array,
+      default: () => [],
+    },
+    // legendPosition: String,
+
+    legendPosition: {
+      type: String,
+      default: "chartArea",
+    },
   },
 
   watch: {
@@ -35,13 +46,29 @@ export default {
           responsive: true,
           maintainAspectRatio: false,
           legend: {
+            // align: "center",
+            // display: true,
+            // fullWidth: true,
+            // labels: {
+            //   boxWidth: 40,
+            //   // generateLabels: ƒ(chart),
+            //   padding: 10,
+            //   fontSize: 12,
+            //   fontColor: "rgba(0, 0, 0, 0.6)",
+            // },
             display: true,
+            position: this.legendPosition,
             // position: "top",
-            position: "chartArea",
+            // position: "bottom",
+
+            // position: "chartArea",
           },
           title: {
             display: true,
             text: this.title,
+          },
+          scales: {
+            yAxes: this.yAxes,
           },
         }
       );

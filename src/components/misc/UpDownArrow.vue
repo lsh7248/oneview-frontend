@@ -17,6 +17,7 @@
       style="top: 25px; border-top: 10px solid blue; border-bottom: 0"
     ></div>
   </div>
+
   <div v-else></div>
   <!-- <v-badge
     class="ml-1 mb-5"

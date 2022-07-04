@@ -53,6 +53,7 @@
           }"
           @click="
             () => {
+              search = '';
               fetch_VOC목록();
             }
           "
@@ -63,13 +64,29 @@
         >
       </v-col>
     </v-row>
+    <v-text-field
+      class="px-1 pl-4 pb-5"
+      dense
+      v-model="search"
+      prepend-inner-icon="mdi-magnify"
+      single-line
+      hide-details
+    >
+    </v-text-field>
     <v-row class="pa-0 ma-0">
       <v-col cols="12" class="pa-0 ma-0">
+        <!-- hide-default-footer -->
         <v-data-table
-          dense
+          :footer-props="{
+            'page-text': '{0}~{1}행 / {2}행',
+            'items-per-page-all-text': '모두',
+            'items-per-page-text': '페이지 최대 표시 행',
+          }"
+          :disable-items-per-page="true"
           :headers="keys2headers(Object.keys(items_VOC목록[0]))"
           :items="items_VOC목록"
-          hide-default-footer
+          :search="search"
+          dense
           class="pa-0 ma-0"
           :style="{
             // marginTop: '10px',
@@ -88,11 +105,12 @@
 export default {
   text: "VocTable",
   data: () => ({
+    search: "",
     date기준년월일: new Date(
       Date.now() - new Date().getTimezoneOffset() * 60000
     )
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     menu: false,
     modal: false,
     menu2: false,
@@ -104,25 +122,25 @@ export default {
       "기지국사업본부4",
     ],
     items_VOC목록: [],
-    headers_VOC목록: [],
+    // headers_VOC목록: [],
   }),
-  watch: {
-    items_VOC목록: function (n) {
-      var tmplst = [];
-      Object.keys(n[0]).forEach((element) => {
-        tmplst.push({
-          class: "light-blue lighten-5",
-          text: element,
-          // align: "start",
-          // sortable: false,
-          // value: element,
-          value: element,
-        });
-      });
-      this.headers_VOC목록 = tmplst;
-      // console.log(tmplst);
-    },
-  },
+  // watch: {
+  //   items_VOC목록: function (n) {
+  //     var tmplst = [];
+  //     Object.keys(n[0]).forEach((element) => {
+  //       tmplst.push({
+  //         class: "light-blue lighten-5",
+  //         text: element,
+  //         // align: "start",
+  //         // sortable: false,
+  //         // value: element,
+  //         value: element,
+  //       });
+  //     });
+  //     this.headers_VOC목록 = tmplst;
+  //     // console.log(tmplst);
+  //   },
+  // },
   methods: {
     keys2headers(keys) {
       var tmplst = [];
@@ -141,14 +159,12 @@ export default {
     },
     async fetch_VOC목록() {
       this.items_VOC목록 = await this.$axios
-        .get(this.$apiServer + "/voc-list")
-        // .get("http://localhost:3000/voc-list")
-        // .get("https://jsonplaceholder.typicode.com/users")
+        .get("http://localhost:3000/api-v1-voc-list")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/voc/list?limit=1000&team=성남엔지니어링부&start_date=20220510&end_date=20220520"
+        // )
         .then(function (response) {
-          // console.log(response.data.slice(0, 10));
-          // console.log(response.data[0].name);
           return response.data;
-          // return response.data;
         })
         .catch(function (error) {
           console.log(error);

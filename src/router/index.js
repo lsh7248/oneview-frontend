@@ -8,13 +8,13 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginView,
-    beforeEnter(to, from, next) {
-      if (sessionStorage.getItem("userInfo")) {
-        next({ name: "home" });
-      } else {
-        next();
-      }
-    },
+    // beforeEnter(to, from, next) {
+    //   if (sessionStorage.getItem("userInfo")) {
+    //     next({ name: "home" });
+    //   } else {
+    //     next();
+    //   }
+    // },
   },
   {
     path: "/home",
@@ -69,11 +69,11 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.name !== "login" && !sessionStorage.getItem("userInfo"))
-    next({ name: "login" });
-  else next();
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== "login" && !sessionStorage.getItem("userInfo"))
+//     next({ name: "login" });
+//   else next();
+// });
 
 Vue.use(VueRouter);
 

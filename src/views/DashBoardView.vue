@@ -8,82 +8,52 @@
               <v-list-item-title
                 class="text-h5 text-center light-blue pa-4 ma-0 white--text"
               >
-                품질 VOC 발생 건수 (전일 대비)
+                품질 VOC 발생 건수 (전주 대비)
+                <!-- {{ api_v1_voc_kpi_day.title }} -->
+                <!-- {{ title__api_v1_voc_kpi_day }} -->
               </v-list-item-title>
 
               <v-row
+                v-if="api_v1_voc_kpi_day.score == null"
+                class="ma-0 pa-3 text-h4 text-center"
+                style="color: transparent"
+              >
+                <v-spacer></v-spacer>
+                No data available
+                <v-spacer></v-spacer>
+              </v-row>
+              <v-row
+                v-else
                 class="ma-0 pa-3 text-h4 text-center"
                 style="color: orange"
               >
                 <v-spacer></v-spacer>
-                {{
-                  briefStat.find((element) => {
-                    if (element.title === "품질 VOC 발생 건수 (전일 대비)") {
-                      return true;
-                    }
-                  }).value + "건"
-                }}
+                {{ api_v1_voc_kpi_day.score + "건" }}
                 <up-down-arrow
                   class="mx-2"
-                  :value="
-                    briefStat.find((element) => {
-                      if (element.title === '품질 VOC 발생 건수 (전일 대비)') {
-                        return true;
-                      }
-                    })['increase rate']
-                  "
-                  :text="
-                    briefStat.find((element) => {
-                      if (element.title === '품질 VOC 발생 건수 (전일 대비)') {
-                        return true;
-                      }
-                    })['increase rate'] + '%'
-                  "
+                  :value="api_v1_voc_kpi_day.rate"
+                  :text="api_v1_voc_kpi_day.rate + '%'"
                 ></up-down-arrow>
+
                 <v-spacer></v-spacer>
               </v-row>
             </v-list-item-content>
           </v-list-item>
 
+          <!-- :title="chartTitle__품질_VOC_일별_추이_건" -->
           <line-chart
-            title="품질 VOC 일별 추이 (건)"
-            :labels="
-              getSequentialDates(`2022-06-08`, `2022-06-14`, date2WeekDayKor)
-            "
-            :datasets="[
-              {
-                label: `금주`,
-                data: this.makeBijectiveYs(
-                  getSequentialDates(`2022-06-08`, `2022-06-14`, date2yyyyMMdd),
-                  `날짜`,
-                  `VOC 건수`,
-                  KPIDaily
-                ),
-
-                backgroundColor: `transparent`,
-                borderColor: `OrangeRed`,
-                pointBackgroundColor: `OrangeRed`,
-              },
-              {
-                label: `전주 `,
-                data: this.makeBijectiveYs(
-                  getSequentialDates(`2022-06-01`, `2022-06-07`, date2yyyyMMdd),
-                  `날짜`,
-                  `VOC 건수`,
-                  KPIDaily
-                ),
-                backgroundColor: `transparent`,
-                borderColor: `DeepSkyBlue`,
-                pointBackgroundColor: `DeepSkyBlue`,
-              },
-            ]"
-            :style="{ marginTop: `-10px`, height: `210px` }"
+            v-if="chartTitle__품질_VOC_일별_추이_건 !== null"
+            :title="chartTitle__품질_VOC_일별_추이_건"
+            :labels="chartLabels__품질_VOC_일별_추이_건"
+            :datasets="chartDatasets__품질_VOC_일별_추이_건"
+            :style="{ marginTop: '-10px', height: '210px' }"
           />
           <v-data-table
-            caption="VOC 발생 Top 10 Worst"
+            v-if="tableCaption__VOC_발생_Top_10_Worst !== null"
+            :caption="tableCaption__VOC_발생_Top_10_Worst"
+            :headers="tableHeaders__VOC_발생_Top_10_Worst"
+            :items="tableItems__VOC_발생_Top_10_Worst"
             dense
-            :headers="headers_VOC발생Top10Worst"
-            :items="items_VOC발생Top10Worst"
             hide-default-footer
             class="elevation-1"
             :style="{
@@ -102,82 +72,75 @@
               <v-list-item-title
                 class="text-h5 text-center light-blue pa-4 ma-0 white--text"
               >
-                VoLTE 절단율 (전일 대비)
+                VoLTE 절단율 (전주 대비)
+                <!-- {{ api_v1_volte_kpi_day.title }} -->
+                <!-- {{ title__api_v1_volte_kpi_day }} -->
               </v-list-item-title>
               <v-row
+                v-if="api_v1_volte_kpi_day.score == null"
+                class="ma-0 pa-3 text-h4 text-center"
+                style="color: transparent"
+              >
+                <v-spacer></v-spacer>
+                No data available
+                <v-spacer></v-spacer>
+              </v-row>
+              <v-row
+                v-else
                 class="ma-0 pa-3 text-h4 text-center"
                 style="color: orange"
               >
                 <v-spacer></v-spacer>
-                {{
-                  briefStat.find((element) => {
-                    if (element.title === "VoLTE 절단율 (전일 대비)") {
-                      return true;
-                    }
-                  }).value + "%"
-                }}
+                {{ api_v1_volte_kpi_day.score + "%" }}
+
+                <!-- {{ api_v1_volte_kpi_day.rate }} -->
                 <up-down-arrow
                   class="mx-2"
-                  :value="
-                    briefStat.find((element) => {
-                      if (element.title === 'VoLTE 절단율 (전일 대비)') {
-                        return true;
-                      }
-                    })['increase rate']
-                  "
-                  :text="
-                    briefStat.find((element) => {
-                      if (element.title === 'VoLTE 절단율 (전일 대비)') {
-                        return true;
-                      }
-                    })['increase rate'] + '%p'
-                  "
+                  :value="api_v1_volte_kpi_day.rate"
+                  :text="api_v1_volte_kpi_day.rate + '%p'"
                 ></up-down-arrow>
+
                 <v-spacer></v-spacer>
               </v-row>
             </v-list-item-content>
           </v-list-item>
 
           <line-chart
-            title="VoLTE 절단율 일별 추이 (%)"
-            :labels="
-              getSequentialDates(`2022-06-08`, `2022-06-14`, date2WeekDayKor)
-            "
-            :datasets="[
+            v-if="chartTitle__VoLTE_절단율_일별_추이_percent !== null"
+            :title="chartTitle__VoLTE_절단율_일별_추이_percent"
+            :labels="chartLabels__VoLTE_절단율_일별_추이_percent"
+            :datasets="chartDatasets__VoLTE_절단율_일별_추이_percent"
+            legendPosition="right"
+            :yAxes="[
               {
-                label: `금주`,
-                data: this.makeBijectiveYs(
-                  getSequentialDates(`2022-06-08`, `2022-06-14`, date2yyyyMMdd),
-                  `날짜`,
-                  `VoLTE 절단율(%)`,
-                  KPIDaily
-                ),
-
-                backgroundColor: `transparent`,
-                borderColor: `OrangeRed`,
-                pointBackgroundColor: `OrangeRed`,
+                id: 'l',
+                type: 'linear',
+                position: 'left',
               },
               {
-                label: `전주 `,
-                data: this.makeBijectiveYs(
-                  getSequentialDates(`2022-06-01`, `2022-06-07`, date2yyyyMMdd),
-                  `날짜`,
-                  `VoLTE 절단율(%)`,
-                  KPIDaily
-                ),
-                backgroundColor: `transparent`,
-                borderColor: `DeepSkyBlue`,
-                pointBackgroundColor: `DeepSkyBlue`,
+                id: 'r',
+                type: 'linear',
+                position: 'right',
+                ticks: {
+                  // max: 1,
+                  // min: 0,
+                  stepSize: 5000,
+                  // reverse: true,
+                },
               },
             ]"
-            :style="{ marginTop: `-10px`, height: `210px` }"
+            :style="{
+              marginTop: `-10px`,
+              height: `210px`,
+            }"
           />
 
           <v-data-table
-            caption="VoLTE 절단율 Top 10 Worst"
+            v-if="tableCaption__VoLTE_절단율_Top_10_Worst !== null"
+            :caption="tableCaption__VoLTE_절단율_Top_10_Worst"
+            :headers="tableHeaders__VoLTE_절단율_Top_10_Worst"
+            :items="tableItems__VoLTE_절단율_Top_10_Worst"
             dense
-            :headers="headers_VoLTE절단율Top10Worst"
-            :items="items_VoLTE절단율Top10Worst"
             hide-default-footer
             class="elevation-1"
             :style="{
@@ -197,35 +160,30 @@
                 class="text-h5 text-center light-blue pa-4 ma-0 white--text"
               >
                 5G 오프로딩율 (전주 대비)
+                <!-- {{ api_v1_5g_kpi_day.title }} -->
+                <!-- {{ title__api_v1_5g_kpi_day }} -->
               </v-list-item-title>
+
               <v-row
+                v-if="api_v1_5g_kpi_day.score == null"
+                class="ma-0 pa-3 text-h4 text-center"
+                style="color: transparent"
+              >
+                <v-spacer></v-spacer>
+                No data available
+                <v-spacer></v-spacer>
+              </v-row>
+              <v-row
+                v-else
                 class="ma-0 pa-3 text-h4 text-center"
                 style="color: orange"
               >
                 <v-spacer></v-spacer>
-                {{
-                  briefStat.find((element) => {
-                    if (element.title === "5G 오프로딩율 (전주 대비)") {
-                      return true;
-                    }
-                  }).value + "%"
-                }}
+                {{ api_v1_5g_kpi_day.score + "%" }}
                 <up-down-arrow
                   class="mx-2"
-                  :value="
-                    briefStat.find((element) => {
-                      if (element.title === '5G 오프로딩율 (전주 대비)') {
-                        return true;
-                      }
-                    })['increase rate']
-                  "
-                  :text="
-                    briefStat.find((element) => {
-                      if (element.title === '5G 오프로딩율 (전주 대비)') {
-                        return true;
-                      }
-                    })['increase rate'] + '%p'
-                  "
+                  :value="api_v1_5g_kpi_day.rate"
+                  :text="api_v1_5g_kpi_day.rate + '%p'"
                 ></up-down-arrow>
                 <v-spacer></v-spacer>
               </v-row>
@@ -233,14 +191,22 @@
           </v-list-item>
 
           <bar-chart
-            :style="{ marginTop: `-10px`, height: `210px` }"
+            v-if="chartTitle__5G_오프로딩율_percent_부서별_비교 !== null"
+            :title="chartTitle__5G_오프로딩율_percent_부서별_비교"
+            :labels="chartLabels__5G_오프로딩율_percent_부서별_비교"
+            :datasets="chartDatasets__5G_오프로딩율_percent_부서별_비교"
+            :style="{
+              marginTop: `-10px`,
+              height: `210px`,
+            }"
           ></bar-chart>
 
           <v-data-table
-            caption="5G 오프로딩율 Top 10 Worst"
+            v-if="tableCaption__5G_오프로딩율_Top_10_Worst !== null"
+            :caption="tableCaption__5G_오프로딩율_Top_10_Worst"
+            :headers="tableHeaders_5G_오프로딩율_Top_10_Worst"
+            :items="tableItems__5G_오프로딩율_Top_10_Worst"
             dense
-            :headers="headers_5G오프로딩율Top10Worst"
-            :items="items_5G오프로딩율Top10Worst"
             hide-default-footer
             class="elevation-1"
             :style="{
@@ -272,7 +238,7 @@
                 VOC 목록
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <VocTable class="pt-3"></VocTable>
+                <voc-table class="pt-3"></voc-table>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -283,7 +249,7 @@
                 VoLTE 절단 이벤트
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <VocTable></VocTable>
+                <voc-table></voc-table>
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
@@ -294,7 +260,7 @@
                 5G 오프로딩 트래픽
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <VocTable></VocTable>
+                <voc-table></voc-table>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -328,119 +294,80 @@ export default {
   data: function () {
     return {
       today: new Date(),
-      briefStat: [],
 
-      KPIDaily: [],
+      api_v1_voc_kpi_day: {},
+      // title__api_v1_voc_kpi_day: "품질 VOC 발생 건수 (전주 대비)",
+      api_v1_volte_kpi_day: {},
+      // title__api_v1_volte_kpi_day: "VoLTE 절단율 (전주 대비)",
+      api_v1_5g_kpi_day: {},
+      // title__api_v1_5g_kpi_day: "5G 오프로딩율 (전주 대비)",
 
-      items_VOC발생Top10Worst: [],
-      headers_VOC발생Top10Worst: [],
+      api_v1_voc_trend_day: [],
+      // chartTitle__품질_VOC_일별_추이_건: "품질 VOC 일별 추이 (건)",
+      chartTitle__품질_VOC_일별_추이_건: null,
+      chartLabels__품질_VOC_일별_추이_건: [],
+      chartDatasets__품질_VOC_일별_추이_건: [],
 
-      items_VoLTE절단율Top10Worst: [],
-      headers_VoLTE절단율Top10Worst: [],
+      api_v1_volte_fc_trend_day: [],
+      api_v1_volte_trend_day: [],
+      // chartTitle__VoLTE_절단율_일별_추이_percent: "VoLTE 절단율 일별 추이 (%)",
+      chartTitle__VoLTE_절단율_일별_추이_percent: null,
+      chartLabels__VoLTE_절단율_일별_추이_percent: [],
+      chartDatasets__VoLTE_절단율_일별_추이_percent: [],
 
-      items_5G오프로딩율Top10Worst: [],
-      headers_5G오프로딩율Top10Worst: [],
+      api_v1_5g_trend_day: [],
+      chartTitle__5G_오프로딩율_percent_부서별_비교: null,
+      chartLabels__5G_오프로딩율_percent_부서별_비교: [],
+      chartDatasets__5G_오프로딩율_percent_부서별_비교: [],
+      // chartTitle__5G_오프로딩율_percent_부서별_비교:
+      //   "5G오프로딩율(%) 부서별 비교",
+      // chartLabels__5G_오프로딩율_percent_부서별_비교: [
+      //   "충정",
+      //   "청량",
+      //   "지하철",
+      // ],
+      // chartDatasets__5G_오프로딩율_percent_부서별_비교: [
+      //   {
+      //     label: "오프로딩율",
+      //     backgroundColor: "OrangeRed",
+      //     data: [77, 82, 80],
+      //   },
+      //   {
+      //     label: "전주 오프로딩율",
+      //     backgroundColor: "DeepSkyBlue",
+      //     data: [79, 80, 83],
+      //   },
+      // ],
+
+      api_v1_voc_bts_list: [],
+      // tableCaption__VOC_발생_Top_10_Worst: "VOC 발생 Top 10 Worst",
+      tableCaption__VOC_발생_Top_10_Worst: null,
+      tableItems__VOC_발생_Top_10_Worst: [],
+      tableHeaders__VOC_발생_Top_10_Worst: [],
+
+      api_v1_volte_bts_list: [],
+      // tableCaption__VoLTE_절단율_Top_10_Worst: "VoLTE 절단율 Top 10 Worst",
+      tableCaption__VoLTE_절단율_Top_10_Worst: null,
+      tableItems__VoLTE_절단율_Top_10_Worst: [],
+      tableHeaders__VoLTE_절단율_Top_10_Worst: [],
+
+      api_v1_5g_bts_list: [],
+      // tableCaption__5G_오프로딩율_Top_10_Worst: "5G 오프로딩율 Top 10 Worst",
+      tableCaption__5G_오프로딩율_Top_10_Worst: null,
+      tableItems__5G_오프로딩율_Top_10_Worst: [],
+      tableHeaders_5G_오프로딩율_Top_10_Worst: [],
     };
   },
-  watch: {
-    items_VOC발생Top10Worst: function (n) {
-      var tmplst = [];
-      Object.keys(n[0]).forEach((element) => {
-        switch (element) {
-          // case "순위":
-          case "VOC 건수":
-            tmplst.push({
-              class: "light-blue lighten-5",
-              text: "발생 건수",
-              align: "end",
-              // sortable: false,
-              value: element,
-            });
-            break;
-          default:
-            tmplst.push({
-              class: "light-blue lighten-5",
-              text: element,
-              // align: "start",
-              // sortable: false,
-              // value: element,
-              value: element,
-            });
-            break;
-        }
-      });
-      this.headers_VOC발생Top10Worst = tmplst;
-      // console.log(tmplst);
-    },
-    items_VoLTE절단율Top10Worst: function (n) {
-      var tmplst = [];
-      Object.keys(n[0]).forEach((element) => {
-        switch (element) {
-          // case "순위":
-          case "VoLTE 절단율(%)":
-            tmplst.push({
-              class: "light-blue lighten-5",
-              text: "절단율(%)",
-              align: "end",
-              // sortable: false,
-              value: element,
-            });
-            break;
-          default:
-            tmplst.push({
-              class: "light-blue lighten-5",
-              text: element,
-              // align: "start",
-              // sortable: false,
-              // value: element,
-              value: element,
-            });
-            break;
-        }
-      });
-      this.headers_VoLTE절단율Top10Worst = tmplst;
-      // console.log(tmplst);
-    },
-
-    items_5G오프로딩율Top10Worst: function (n) {
-      var tmplst = [];
-      Object.keys(n[0]).forEach((element) => {
-        switch (element) {
-          // case "순위":
-          case "5G 오프로딩율 목표 대비(%p)":
-            tmplst.push({
-              class: "light-blue lighten-5",
-              text: "목표 대비(%p)",
-              align: "end",
-              // sortable: false,
-              value: element,
-            });
-            break;
-          default:
-            tmplst.push({
-              class: "light-blue lighten-5",
-              text: element,
-              // align: "start",
-              // sortable: false,
-              // value: element,
-              value: element,
-            });
-            break;
-        }
-      });
-      this.headers_5G오프로딩율Top10Worst = tmplst;
-      // console.log(tmplst);
-    },
-  },
+  watch: {},
 
   methods: {
-    date2yyyyMMdd(d, delimiter = "-") {
+    date2yyyyMMdd(d, delimiter = "") {
       // var mm = d.getMonth() + 1;
       // mm = mm < 10 ? "0" + mm : mm;
       // var dd = d.getDate();
       // dd = dd < 10 ? "0" + dd : dd;
       // return d.getFullYear() + delimiter + mm + delimiter + dd;
-      return d.toISOString().substring(0, 10).replace("-", delimiter);
+      return d.toISOString().substring(0, 10).replace(/-/g, delimiter);
     },
     date2WeekDayKor(d) {
       const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -461,101 +388,546 @@ export default {
       return dates;
     },
 
-    makeBijectiveYs(
-      xs = [],
-      keyName = "날짜",
-      valueName = "VOC 건수",
-      d = this.KPIDaily
+    hunt(
+      marks = ["2022-06-02", "2022-06-03"],
+      keynameMark = "날짜",
+      keynameTrophy = "VOC 건수",
+      dataJungle = [
+        {
+          날짜: "2022-06-01",
+          "VOC 건수": 307,
+          "VoLTE 절단율(%)": 0.1,
+          "5G 오프로딩율(%)": 5.5,
+        },
+        {
+          날짜: "2022-06-02",
+          "VOC 건수": 200,
+          "VoLTE 절단율(%)": 0.2,
+          "5G 오프로딩율(%)": 10.1,
+        },
+      ],
+      substitute4null = null,
+      shouldFFO = true,
+      shouldBeSurjective = true
     ) {
-      var tmp = [];
-      xs.forEach((x) => {
+      var trophies = [];
+      marks.forEach((x) => {
         try {
-          tmp.push(
-            d.find((element) => {
-              if (element[keyName] === x) {
-                return true;
-              }
-            })[valueName]
-          );
+          if (shouldFFO) {
+            trophies.push(
+              dataJungle.find((element) => {
+                if (element[keynameMark] === x) {
+                  return true;
+                }
+              })[keynameTrophy]
+            );
+          } else {
+            trophies.push(
+              dataJungle.filter((element) => {
+                if (element[keynameMark] === x) {
+                  return true;
+                }
+              })[keynameTrophy]
+            );
+          }
         } catch (error) {
-          tmp.push(null);
+          if (shouldBeSurjective) {
+            trophies.push(substitute4null);
+          }
         }
       });
-      return tmp;
+      return trophies;
     },
-    async fetch_briefStat() {
-      this.briefStat = await this.$axios
-        .get(this.$apiServer + "/brief-stat")
+
+    async fetch__api_v1_voc_kpi_day() {
+      this.api_v1_voc_kpi_day = await this.$axios
+        .get("http://localhost:3000/api-v1-voc-kpi-day")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/voc/kpi/day?team=성남엔지니어링부&date=20220502"
+        // )
         .then(function (response) {
-          // console.log(response.data.slice(0, 10));
           return response.data;
-          // return response.data;
         })
         .catch(function (error) {
           console.log(error);
           return [];
         });
     },
-    async fetch_KPIDaily() {
-      this.KPIDaily = await this.$axios
-        .get(this.$apiServer + "/kpi-daily")
+    async fetch__api_v1_volte_kpi_day() {
+      this.api_v1_volte_kpi_day = await this.$axios
+        .get("http://localhost:3000/api-v1-volte-kpi-day")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/voc/kpi/day?team=성남엔지니어링부&date=20220502"
+        // )
         .then(function (response) {
-          // console.log(response.data.slice(0, 10));
           return response.data;
-          // return response.data;
         })
         .catch(function (error) {
           console.log(error);
           return [];
         });
     },
-    async fetch_VOC발생Top10Worst() {
-      this.items_VOC발생Top10Worst = await this.$axios
-        .get(this.$apiServer + "/top10worst-voc")
+    async fetch__api_v1_5g_kpi_day() {
+      this.api_v1_5g_kpi_day = await this.$axios
+        .get("http://localhost:3000/api-v1-5g-kpi-day")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/voc/kpi/day?team=성남엔지니어링부&date=20220502"
+        // )
         .then(function (response) {
-          // console.log(response.data.slice(0, 10));
-          return response.data.slice(0, 10);
-          // return response.data;
+          return response.data;
         })
         .catch(function (error) {
           console.log(error);
           return [];
         });
     },
-    async fetch_VoLTE절단율Top10Worst() {
-      this.items_VoLTE절단율Top10Worst = await this.$axios
-        .get(this.$apiServer + "/top10worst-volte")
+    async fetch__api_v1_voc_trend_day() {
+      let res = await this.$axios
+        .get("http://localhost:3000/api-v1-voc-trend-day")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/voc/trend/day?team=성남엔지니어링부&start_date=20220501&end_date=20220620"
+        // )
         .then(function (response) {
-          // console.log(response.data.slice(0, 10));
-          return response.data.slice(0, 10);
-          // return response.data;
+          return response.data;
         })
         .catch(function (error) {
           console.log(error);
           return [];
         });
+
+      if (res.length == 0) {
+        this.chartTitle__품질_VOC_일별_추이_건 = null;
+        return;
+      } else {
+        this.chartTitle__품질_VOC_일별_추이_건 = "품질VOC(건) 일별 추이";
+      }
+
+      this.chartLabels__품질_VOC_일별_추이_건 = this.getSequentialDates(
+        "2022-05-08",
+        "2022-05-14",
+        (d) => {
+          const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+          return WEEKDAY[d.getDay()];
+        }
+      );
+
+      let data0 = this.hunt(
+        this.getSequentialDates("2022-05-08", "2022-05-14", (d) => {
+          return d.toISOString().substring(0, 10).replace(/-/g, "");
+        }),
+        "date",
+        "value",
+        res,
+        0
+      );
+      let data1 = this.hunt(
+        this.getSequentialDates("2022-05-01", "2022-05-07", (d) => {
+          return d.toISOString().substring(0, 10).replace(/-/g, "");
+        }),
+        "date",
+        "value",
+        res,
+        0
+      );
+      this.chartDatasets__품질_VOC_일별_추이_건 = [
+        {
+          label: "VOC",
+          data: data0,
+
+          backgroundColor: "transparent",
+          borderColor: "OrangeRed",
+          pointBackgroundColor: "OrangeRed",
+          pointStyle: "rectRot",
+          pointRadius: 5,
+        },
+        {
+          label: "전주 VOC ",
+          data: data1,
+          backgroundColor: "transparent",
+          borderColor: "DeepSkyBlue",
+          pointBackgroundColor: "DeepSkyBlue",
+          pointStyle: "rectRot",
+          pointRadius: 5,
+        },
+      ];
     },
-    async fetch_5G오프로딩율Top10Worst() {
-      this.items_5G오프로딩율Top10Worst = await this.$axios
-        .get(this.$apiServer + "/top10worst-offloading")
+
+    async fetch__api_v1_volte_trend_day() {
+      let res = await this.$axios
+        .get("http://localhost:3000/api-v1-volte-trend-day")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/volte/trend/day?team=전남&start_date=20220501&end_date=20220520"
+        // )
         .then(function (response) {
-          // console.log(response.data.slice(0, 10));
-          return response.data.slice(0, 10);
-          // return response.data;
+          return response.data;
         })
         .catch(function (error) {
           console.log(error);
           return [];
         });
+
+      this.api_v1_volte_fc_trend_day = await this.$axios
+        .get("http://localhost:3000/api-v1-volte-fc-trend-day")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/volte/fc/trend/day?start_date=20220501&end_date=20220514"
+        // )
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+          return [];
+        });
+
+      this.api_v1_volte_fc_trend_day.forEach((element) => {
+        element["FC_373&9563"] = element.fc_373 + element.fc_9563;
+      });
+
+      if (res.length == 0) {
+        this.chartTitle__VoLTE_절단율_일별_추이_percent = null;
+        return;
+      } else {
+        this.chartTitle__VoLTE_절단율_일별_추이_percent =
+          // "VoLTE 절단율 일별 추이 (%)";
+          "VoLTE절단율(%) FC373&9563(건) 일별 추이";
+      }
+      this.chartLabels__VoLTE_절단율_일별_추이_percent =
+        this.getSequentialDates("2022-05-08", "2022-05-14", (d) => {
+          const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+          return WEEKDAY[d.getDay()];
+        });
+      let data0 = this.hunt(
+        this.getSequentialDates("2022-05-08", "2022-05-14", (d) => {
+          return d.toISOString().substring(0, 10).replace(/-/g, "");
+        }),
+        "date",
+        "value",
+        res,
+        0
+      );
+      let data1 = this.hunt(
+        this.getSequentialDates("2022-05-08", "2022-05-14", (d) => {
+          return d.toISOString().substring(0, 10).replace(/-/g, "");
+        }),
+        "date",
+        "FC_373&9563",
+        this.api_v1_volte_fc_trend_day,
+        0
+      );
+      let data2 = this.hunt(
+        this.getSequentialDates("2022-05-01", "2022-05-07", (d) => {
+          return d.toISOString().substring(0, 10).replace(/-/g, "");
+        }),
+        "date",
+        "value",
+        res,
+        0
+      );
+      let data3 = this.hunt(
+        this.getSequentialDates("2022-05-01", "2022-05-07", (d) => {
+          return d.toISOString().substring(0, 10).replace(/-/g, "");
+        }),
+        "date",
+        "FC_373&9563",
+        this.api_v1_volte_fc_trend_day,
+        0
+      );
+
+      this.chartDatasets__VoLTE_절단율_일별_추이_percent = [
+        {
+          yAxisID: "l",
+          label: "VoLTE절단율",
+          data: data0,
+          backgroundColor: "transparent",
+          borderColor: "OrangeRed",
+          pointBackgroundColor: "OrangeRed",
+          pointStyle: "rectRot",
+          pointRadius: 5,
+        },
+        {
+          yAxisID: "r",
+          label: "FC373&9563",
+          data: data1,
+          backgroundColor: "transparent",
+          borderColor: "Pink",
+          pointBackgroundColor: "Pink",
+          pointStyle: "rectRot",
+          pointRadius: 5,
+        },
+        {
+          yAxisID: "l",
+          label: "전주 절단율",
+          data: data2,
+          backgroundColor: "transparent",
+          borderColor: "DeepSkyBlue",
+          pointBackgroundColor: "DeepSkyBlue",
+          pointStyle: "rectRot",
+          pointRadius: 5,
+        },
+        {
+          yAxisID: "r",
+          label: "전주 FC",
+          data: data3,
+          backgroundColor: "transparent",
+          borderColor: "lightBlue",
+          pointBackgroundColor: "lightBlue",
+          pointStyle: "rectRot",
+          pointRadius: 5,
+        },
+      ];
+    },
+
+    async fetch__api_v1_5g_trend_day() {
+      let res = await this.$axios
+        .get("http://localhost:3000/api-v1-5g-trend-day")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/volte/trend/day?team=성남엔지니어링부&start_date=20220501&end_date=20220620"
+        // )
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+          return [];
+        });
+
+      if (res.length == 0) {
+        this.chartTitle__5G_오프로딩율_percent_부서별_비교 = null;
+        return;
+      } else {
+        this.chartTitle__5G_오프로딩율_percent_부서별_비교 =
+          "5G오프로딩율(%) 부서별 비교";
+      }
+      this.chartLabels__5G_오프로딩율_percent_부서별_비교 = [];
+      Object.keys(res[res.length - 1]).forEach((element) => {
+        if (element !== "date") {
+          this.chartLabels__5G_오프로딩율_percent_부서별_비교.push(element);
+        }
+      });
+
+      let data0 = [];
+      this.chartLabels__5G_오프로딩율_percent_부서별_비교.forEach((element) => {
+        if (element !== "date") {
+          data0.push(res[res.length - 1][element]);
+        }
+      });
+      let data1 = [];
+      this.chartLabels__5G_오프로딩율_percent_부서별_비교.forEach((element) => {
+        if (element !== "date") {
+          data1.push(res[res.length - 8][element]);
+        }
+      });
+
+      this.chartDatasets__5G_오프로딩율_percent_부서별_비교 = [
+        {
+          label: "오프로딩율",
+          backgroundColor: "OrangeRed",
+          data: data0,
+        },
+        {
+          label: "전주 오프로딩율",
+          backgroundColor: "DeepSkyBlue",
+          data: data1,
+        },
+      ];
+    },
+
+    async fetch__api_v1_voc_bts_list() {
+      let res = await this.$axios
+        .get("http://localhost:3000/api-v1-voc-bts-list")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/voc/bts/list?limit=10&team=성남엔지니어링부&start_date=20220510&end_date=20220520"
+        // )
+        .then(function (response) {
+          return response.data.slice(0, 10);
+        })
+        .catch(function (error) {
+          console.log(error);
+          return [];
+        });
+
+      if (res.length == 0) {
+        this.tableCaption__VOC_발생_Top_10_Worst = null;
+        return;
+      } else {
+        this.tableCaption__VOC_발생_Top_10_Worst = "VOC 발생 Top 10 Worst";
+      }
+      let items = [];
+      res.forEach((element) => {
+        items.push({
+          기지국명: element["기지국명"],
+          "발생 건수": element["voc_cnt"],
+          주소: element["juso"],
+          // 팀: element["team"],
+          관할: element["jo"],
+        });
+      });
+      this.tableItems__VOC_발생_Top_10_Worst = items;
+
+      var headers = [];
+      Object.keys(items[0]).forEach((element) => {
+        switch (element) {
+          case "발생 건수":
+            headers.push({
+              class: "light-blue lighten-5",
+              text: element,
+              align: "end",
+              // sortable: false,
+              value: element,
+            });
+            break;
+          default:
+            headers.push({
+              class: "light-blue lighten-5",
+              text: element,
+              // align: "start",
+              // sortable: false,
+              value: element,
+            });
+            break;
+        }
+      });
+      this.tableHeaders__VOC_발생_Top_10_Worst = headers;
+    },
+
+    async fetch__api_v1_volte_bts_list() {
+      let res = await this.$axios
+        .get("http://localhost:3000/api-v1-volte-bts-list")
+        // .get(
+        //   "http://10.203.13.202:8241/api/v1/volte/bts/list?limit=10&team=전남&start_date=20220501&end_date=20220503"
+        // )
+        .then(function (response) {
+          return response.data.slice(0, 10);
+        })
+        .catch(function (error) {
+          console.log(error);
+          return [];
+        });
+
+      if (res.length == 0) {
+        this.tableCaption__VoLTE_절단율_Top_10_Worst = null;
+        return;
+      } else {
+        this.tableCaption__VoLTE_절단율_Top_10_Worst =
+          "VoLTE 절단율 Top 10 Worst";
+      }
+      let items = [];
+      res.forEach((element) => {
+        items.push({
+          기지국명: element["기지국명"],
+          "절단율(%)": element["cut_ratio"],
+          // 시도: element["sum_try"],
+          // 성공: element["sum_suc"],
+          // // 실패: element["sum_fail"],
+          // 절단: element["sum_cut"],
+          주소: element["juso"],
+          // 팀: element["team"],
+          관할: element["jo"],
+        });
+      });
+
+      this.tableItems__VoLTE_절단율_Top_10_Worst = items;
+      var headers = [];
+      Object.keys(items[0]).forEach((element) => {
+        switch (element) {
+          case "절단율(%)":
+            headers.push({
+              class: "light-blue lighten-5",
+              text: element,
+              align: "end",
+              // sortable: false,
+              value: element,
+            });
+            break;
+          default:
+            headers.push({
+              class: "light-blue lighten-5",
+              text: element,
+              // align: "start",
+              // sortable: false,
+              // value: element,
+              value: element,
+            });
+            break;
+        }
+      });
+      this.tableHeaders__VoLTE_절단율_Top_10_Worst = headers;
+    },
+
+    async fetch__api_v1_5g_bts_list() {
+      let res = await this.$axios
+        .get("http://localhost:3000/api-v1-5g-bts-list")
+        // .get(
+        //   ""
+        // )
+        .then(function (response) {
+          return response.data.slice(0, 10);
+        })
+        .catch(function (error) {
+          console.log(error);
+          return [];
+        });
+
+      if (res.length == 0) {
+        this.tableCaption__5G_오프로딩율_Top_10_Worst = null;
+        return;
+      } else {
+        this.tableCaption__5G_오프로딩율_Top_10_Worst =
+          "5G 오프로딩율 Top 10 Worst";
+      }
+
+      let items = [];
+      res.forEach((element) => {
+        items.push({
+          기지국명: element["기지국명"],
+          "목표 대비(%p)": element["5G 오프로딩율 목표 대비(%p)"],
+          주소: element["juso"],
+          // 팀: element["team"],
+          // 관할: element["jo"],
+          구분: element["foo"],
+        });
+      });
+      this.tableItems__5G_오프로딩율_Top_10_Worst = items;
+      var headers = [];
+      Object.keys(items[0]).forEach((element) => {
+        switch (element) {
+          case "목표 대비(%p)":
+            headers.push({
+              class: "light-blue lighten-5",
+              text: element,
+              align: "end",
+              // sortable: false,
+              value: element,
+            });
+            break;
+          default:
+            headers.push({
+              class: "light-blue lighten-5",
+              text: element,
+              // align: "start",
+              // sortable: false,
+              // value: element,
+              value: element,
+            });
+            break;
+        }
+      });
+      this.tableHeaders_5G_오프로딩율_Top_10_Worst = headers;
     },
   },
 
   mounted() {
-    this.fetch_briefStat();
-    this.fetch_KPIDaily();
-    this.fetch_VOC발생Top10Worst();
-    this.fetch_VoLTE절단율Top10Worst();
-    this.fetch_5G오프로딩율Top10Worst();
+    this.fetch__api_v1_voc_kpi_day();
+    this.fetch__api_v1_volte_kpi_day();
+    this.fetch__api_v1_5g_kpi_day();
+
+    this.fetch__api_v1_voc_trend_day();
+    this.fetch__api_v1_volte_trend_day();
+    this.fetch__api_v1_5g_trend_day();
+
+    this.fetch__api_v1_voc_bts_list();
+    this.fetch__api_v1_volte_bts_list();
+    this.fetch__api_v1_5g_bts_list();
   },
 };
 </script>
