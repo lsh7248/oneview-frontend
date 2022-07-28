@@ -8,7 +8,7 @@
               <v-list-item-title
                 class="text-h5 text-center light-blue pa-4 ma-0 white--text"
               >
-                VoLTE 절 단율 (전주 대비)
+                VoLTE 절단율 (전주 대비)
                 <!-- {{ api_v1_volte_kpi_day.title }} -->
                 <!-- {{ title__api_v1_volte_kpi_day }} -->
               </v-list-item-title>
