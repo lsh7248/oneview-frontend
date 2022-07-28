@@ -10,6 +10,10 @@ export default {
       default: () => [],
     },
     datasets: [],
+    legendPosition: {
+      type: String,
+      default: "chartArea",
+    },
   },
 
   watch: {
@@ -37,7 +41,9 @@ export default {
           legend: {
             display: true,
             // position: "top",
-            position: "chartArea",
+            // position: "bottom",
+            position: this.legendPosition,
+            // position: "chartArea",
           },
           title: {
             display: true,

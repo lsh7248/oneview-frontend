@@ -1,10 +1,12 @@
 <template>
   <div style="margin: 0px; padding: 0px">
     <v-row dense class="pb-0 ma-0">
-      <v-col cols="0" sm="0" md="2" lg="5" class="pa-0 ma-0">
+      <!-- <v-col cols="0" sm="0" md="2" lg="5" class="pa-0 ma-0"> -->
+      <v-col cols="0" sm="0" md="3" lg="5" class="pa-0 ma-0">
         <v-card-title> VOC 목록 </v-card-title>
       </v-col>
-      <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0">
+      <!-- <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0"> -->
+      <v-col cols="12" sm="5" md="4" lg="3" class="py-0 ma-0">
         <v-menu
           v-model="menu2"
           :close-on-content-click="false"
@@ -31,20 +33,24 @@
           ></v-date-picker>
         </v-menu>
       </v-col>
-      <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0">
+      <!-- <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0"> -->
+      <v-col cols="12" sm="5" md="4" lg="3" class="py-0 ma-0">
         <v-select
-          :items="items_기지국사업본부"
-          label="기지국사업본부"
+          v-model="selected_주기지국센터"
+          :items="items_주기지국센터"
+          label="주기지국센터"
+          return-object
         ></v-select>
       </v-col>
-      <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0">
+      <!-- <v-col cols="12" sm="6" md="3" lg="2" class="py-0 ma-0">
         <v-text-field
           v-model="message1"
           label="서비스계약번호"
           clearable
         ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6" md="1" class="py-0 ma-0">
+      </v-col> -->
+      <!-- <v-col cols="12" sm="6" md="1" class="py-0 ma-0"> -->
+      <v-col cols="12" sm="2" md="1" class="py-0 ma-0">
         <v-btn
           :style="{
             marginTop: '10px',
@@ -65,6 +71,7 @@
       </v-col>
     </v-row>
     <v-text-field
+      v-if="items_VOC목록.length > 0"
       class="px-1 pl-4 pb-5"
       dense
       v-model="search"
@@ -77,9 +84,10 @@
       <v-col cols="12" class="pa-0 ma-0">
         <!-- hide-default-footer -->
         <v-data-table
+          v-if="items_VOC목록.length > 0"
           :footer-props="{
             'page-text': '{0}~{1}행 / {2}행',
-            'items-per-page-all-text': '모두',
+            'items-per-page-all-text': '전체',
             'items-per-page-text': '페이지 최대 표시 행',
           }"
           :disable-items-per-page="true"
@@ -96,6 +104,15 @@
           }"
         >
         </v-data-table>
+        <v-row
+          v-else
+          class="ma-0 pa-3 text-h6 text-center"
+          style="color: lightgray"
+        >
+          <v-spacer></v-spacer>
+          No data available
+          <v-spacer></v-spacer>
+        </v-row>
       </v-col>
     </v-row>
   </div>
@@ -106,20 +123,29 @@ export default {
   text: "VocTable",
   data: () => ({
     search: "",
-    date기준년월일: new Date(
-      Date.now() - new Date().getTimezoneOffset() * 60000
-    )
-      .toISOString()
-      .substring(0, 10),
+    // date기준년월일: new Date(
+    //   Date.now() - new Date().getTimezoneOffset() * 60000
+    // )
+    date기준년월일: new Date("2022-05-14").toISOString().substring(0, 10),
     menu: false,
     modal: false,
     menu2: false,
-
-    items_기지국사업본부: [
-      "기지국사업본부1",
-      "기지국사업본부2",
-      "기지국사업본부3",
-      "기지국사업본부4",
+    selected_주기지국센터: "전체",
+    items_주기지국센터: [
+      "경기남부",
+      "경기북부",
+      "경기서부",
+      "경남",
+      "경북",
+      "대구",
+      "부산",
+      "서울강남",
+      "서울강북",
+      "전북",
+      "전남",
+      "충남",
+      "충북",
+      "전체",
     ],
     items_VOC목록: [],
     // headers_VOC목록: [],
@@ -158,16 +184,32 @@ export default {
       return tmplst;
     },
     async fetch_VOC목록() {
+      let pararg_주기지국센터 = "";
+      if (this.selected_주기지국센터 !== "전체") {
+        pararg_주기지국센터 = "&team=" + this.selected_주기지국센터;
+      }
+
       this.items_VOC목록 = await this.$axios
-        .get("http://localhost:3000/api-v1-voc-list")
-        // .get(
-        //   "http://10.203.13.202:8241/api/v1/voc/list?limit=1000&team=성남엔지니어링부&start_date=20220510&end_date=20220520"
-        // )
+
+        .get(
+          this.$prefixAPIURL +
+            // "voc/list?limit=1000&team=전남엔지니어링부&start_date=20220508&end_date=20220514"
+            // "voc/list?limit=1000&start_date=20220514"
+            // "voc/list?limit=1000&start_date=" +
+            // this.date기준년월일.substring(0, 10).replace(/-/g, "")
+            "voc/list?limit=1000" +
+            pararg_주기지국센터 +
+            "&start_date=" +
+            this.date기준년월일.substring(0, 10).replace(/-/g, "")
+          // "voc/list"
+        )
+
         .then(function (response) {
+          console.log("error", response.data);
           return response.data;
         })
         .catch(function (error) {
-          console.log(error);
+          console.log("error", error);
           return [];
         });
     },

@@ -1,9 +1,20 @@
 <template>
-  <v-app-bar app color="primary" dark hide-on-scroll>
-    <div class="d-flex align-center">
+  <v-app-bar
+    app
+    color="primary"
+    dark
+    elevate-on-scroll
+    class="d-flex justify-space-between primary"
+    :style="{
+      height: `55px`,
+      width: `100vw`,
+      whiteSpace: 'nowrap',
+    }"
+  >
+    <div class="d-flex align-center mt-n2 ml-n2">
       <v-app-bar-nav-icon
         @click.stop="drawerClick"
-        v-if="!$route.path.includes('dashboard')"
+        v-if="!$route.path.includes('dashboard-')"
       ></v-app-bar-nav-icon>
 
       <h1>KT OneView</h1>
@@ -11,22 +22,8 @@
 
     <v-spacer></v-spacer>
 
-    <v-menu bottom left>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn icon color="yellow" v-bind="attrs" v-on="on">
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-
-      <v-list>
-        <v-list-item v-for="(item, i) in appItems" :key="i" @click="logout">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-
     <template v-slot:extension>
-      <v-tabs align-with-title>
+      <v-tabs align-with-title center-active v-if="true">
         <v-tab
           v-for="(item, index) in tabItems"
           :key="index"
@@ -36,6 +33,19 @@
           {{ item.name }}
         </v-tab>
       </v-tabs>
+      <v-menu bottom left>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon color="yellow" v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item v-for="(item, i) in appItems" :key="i" @click="logout">
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </template>
   </v-app-bar>
 </template>
